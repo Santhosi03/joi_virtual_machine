@@ -1,0 +1,27 @@
+Square_constructor:
+    PUSH FP
+    MOV FP, SP
+    
+    // Store vtable pointer
+    PUSH VTABLE_Square
+    SETFIELD 0
+    
+    // Store side
+    LOAD [FP-4]
+    SETFIELD 4
+    
+    MOV SP, FP
+    POP FP
+    RET
+
+Square_area:
+    PUSH FP
+    MOV FP, SP
+    
+    GETFIELD 4      // Get side
+    DUP             // Duplicate for multiplication
+    MUL             // Calculate area
+    
+    MOV SP, FP
+    POP FP
+    RET

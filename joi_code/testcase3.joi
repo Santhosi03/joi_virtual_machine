@@ -1,0 +1,8 @@
+// Example 3: Dynamic Memory Allocation
+int* createArray(int size) {
+    int* arr = new int[size];
+    for(int i = 0; i < size; i++) {
+        arr[i] = i;
+    }
+    return arr;
+}

@@ -1,0 +1,34 @@
+main:
+    PUSH 4          // width
+    PUSH 5          // height
+    NEW Rectangle   // Create object
+    DUP            // Duplicate for method call
+    VCALL area     // Call area method
+    RET
+
+Rectangle_constructor:
+    PUSH FP
+    MOV FP, SP
+    
+    // Store width and height
+    LOAD [FP-8]     // Load width
+    SETFIELD 0      // Store in field 0
+    LOAD [FP-4]     // Load height
+    SETFIELD 4      // Store in field 4
+    
+    MOV SP, FP
+    POP FP
+    RET
+
+Rectangle_area:
+    PUSH FP
+    MOV FP, SP
+    
+    // Get fields and multiply
+    GETFIELD 0      // Get width
+    GETFIELD 4      // Get height
+    MUL             // Multiply
+    
+    MOV SP, FP
+    POP FP
+    RET

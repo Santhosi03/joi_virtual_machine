@@ -1,13 +1,13 @@
 main:
-    PUSH 4          // width
-    PUSH 5          // height
+    IPUSH 4          // width
+    IPUSH 5          // height
     NEW Rectangle   // Create object
-    DUP            // Duplicate for method call
+    IDUP            // Duplicate for method call
     VCALL area     // Call area method
     RET
 
 Rectangle_constructor:
-    PUSH FP
+    IPUSH FP
     MOV FP, SP
     
     // Store width and height
@@ -17,18 +17,18 @@ Rectangle_constructor:
     SETFIELD 4      // Store in field 4
     
     MOV SP, FP
-    POP FP
+    IPOP FP
     RET
 
 Rectangle_area:
-    PUSH FP
+    IPUSH FP
     MOV FP, SP
     
     // Get fields and multiply
     GETFIELD 0      // Get width
     GETFIELD 4      // Get height
-    MUL             // Multiply
+    IMUL             // Multiply
     
     MOV SP, FP
-    POP FP
+    IPOP FP
     RET

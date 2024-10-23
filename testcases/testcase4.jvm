@@ -1,9 +1,9 @@
 Square_constructor:
-    PUSH FP
+    IPUSH FP
     MOV FP, SP
     
     // Store vtable pointer
-    PUSH VTABLE_Square
+    IPUSH VTABLE_Square
     SETFIELD 0
     
     // Store side
@@ -11,17 +11,17 @@ Square_constructor:
     SETFIELD 4
     
     MOV SP, FP
-    POP FP
+    IPOP FP
     RET
 
 Square_area:
-    PUSH FP
+    IPUSH FP
     MOV FP, SP
     
     GETFIELD 4      // Get side
-    DUP             // Duplicate for multiplication
-    MUL             // Calculate area
+    IDUP             // Duplicate for multiplication
+    IMUL             // Calculate area
     
     MOV SP, FP
-    POP FP
+    IPOP FP
     RET

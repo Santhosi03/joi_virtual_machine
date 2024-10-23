@@ -1,20 +1,20 @@
 main:
-    PUSH 5          // Push first argument
-    PUSH 3          // Push second argument
+    IPUSH 5          // Push first argument
+    IPUSH 3          // Push second argument
     CALL add        // Call add function
     RET            // Return from main
 
 add:
     // Frame setup
-    PUSH FP         // Save old frame pointer
+    IPUSH FP         // Save old frame pointer
     MOV FP, SP      // Set up new frame pointer
     
     // Function body
     LOAD [FP-8]     // Load first parameter (a)
     LOAD [FP-4]     // Load second parameter (b)
-    ADD             // Add them together
+    IADD             // Add them together
     
     // Frame cleanup
     MOV SP, FP      // Restore stack pointer
-    POP FP          // Restore frame pointer
+    IPOP FP          // Restore frame pointer
     RET             // Return to caller

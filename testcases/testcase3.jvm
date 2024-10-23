@@ -1,28 +1,28 @@
 createArray:
-    PUSH FP
+    IPUSH FP
     MOV FP, SP
     
     LOAD [FP-4]     // Load size
     ALLOC           // Allocate memory
-    DUP             // Duplicate array pointer
+    IDUP             // Duplicate array pointer
     
     // Loop initialization
     PUSH 0          // i = 0
 loop:
-    DUP             // Duplicate i
+    IDUP             // Duplicate i
     LOAD [FP-4]     // Load size
     LT              // Compare i < size
     JZ end_loop
     
     // arr[i] = i
-    DUP2            // Duplicate array pointer and i
+    IDUP            // Duplicate array pointer and i
     STORE           // Store i at arr[i]
     
-    PUSH 1
-    ADD             // i++
+    IPUSH 1
+    IADD             // i++
     JMP loop
     
 end_loop:
     MOV SP, FP
-    POP FP
+    IPOP FP
     RET

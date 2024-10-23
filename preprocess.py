@@ -59,7 +59,7 @@ class Preprocess:
                 mod_vm_code += f"push constant 1 {split_line[-1]}\n"
                 mod_vm_code += f"label {label1}\n"
 
-            elif ';' in line:
+            elif '//' in line:
                 mod_vm_code += re.sub(r';.*', '\n', line).strip() + '\n'
 
             elif '#' in line:

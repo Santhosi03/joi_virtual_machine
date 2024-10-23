@@ -1,8 +1,22 @@
-// Example 3: Dynamic Memory Allocation
-int* createArray(int size) {
-    int* arr = new int[size];
-    for(int i = 0; i < size; i++) {
-        arr[i] = i;
+int main() {
+    int n;
+    printf("Enter array size: ");
+    scanf("%d", &n);
+    
+    int sum = 0;
+    int max = 0;
+    
+    printf("Enter %d numbers:\n", n);
+    for(int i = 0; i < n; i++) {
+        int num;
+        scanf("%d", &num);
+        sum += num;
+        if(num > max) max = num;
     }
-    return arr;
+    
+    float avg = (float)sum / n;
+    printf("Sum: %d\n", sum);
+    printf("Average: %.2f\n", avg);
+    printf("Maximum: %d\n", max);
+    return 0;
 }

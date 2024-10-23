@@ -1,20 +1,52 @@
-main:
-    PUSH 5          // Push first argument
-    PUSH 3          // Push second argument
-    CALL add        // Call add function
-    RET            // Return from main
-
-add:
-    // Frame setup
-    PUSH FP         // Save old frame pointer
-    MOV FP, SP      // Set up new frame pointer
-    
-    // Function body
-    LOAD [FP-8]     // Load first parameter (a)
-    LOAD [FP-4]     // Load second parameter (b)
-    ADD             // Add them together
-    
-    // Frame cleanup
-    MOV SP, FP      // Restore stack pointer
-    POP FP          // Restore frame pointer
-    RET             // Return to caller
+.strings
+1:"Sum "
+2:" is greater than 10\n"
+3:" is less than or equal to 10\n"
+        
+        ENTER 4          // Space for a, b, sum, diff
+        MOV FP, SP
+        
+        PRINTS "Enter two numbers: "
+        SCANI            // Read first number
+        STOREFP 0        // Store in a
+        SCANI            // Read second number
+        STOREFP 1        // Store in b
+        
+        // Calculate sum
+        LOADFP 0         // Load a
+        LOADFP 1         // Load b
+        IADD             // Add them
+        STOREFP 2        // Store in sum
+        
+        // Calculate difference
+        LOADFP 0         // Load a
+        LOADFP 1         // Load b
+        ISUB             // Subtract
+        STOREFP 3        // Store in diff
+        
+        // Compare sum with 10
+        LOADFP 2         // Load sum
+        IPUSHI 10        // Push 10
+        GT               // Compare sum > 10
+        JZ ELSE_BRANCH   // If not greater, jump to else
+        
+        PRINTS 1
+        LOADFP 2         // Load sum
+        PRINTI           // Print sum
+        PRINTS 2
+        JMP END_IF
+        
+ELSE_BRANCH:
+        PRINTS 1
+        LOADFP 2         // Load sum
+        PRINTI           // Print sum
+        PRINTS 3
+        
+END_IF:
+        PRINTS "Difference is: "
+        LOADFP 3         // Load diff
+        PRINTLNI         // Print with newline
+        
+        IPUSHI 0         // Return 0
+        LEAVE
+        RET

@@ -1,34 +1,47 @@
-main:
-    PUSH 4          // width
-    PUSH 5          // height
-    NEW Rectangle   // Create object
-    DUP            // Duplicate for method call
-    VCALL area     // Call area method
-    RET
+.strings
+1:"Enter your name: "
+2:"Hello "
+3:"! Enter temperature in Celsius: "
+4:", "
+5:"°C is "
+        
+        ENTER 3          // Space for celsius, name_id, fahrenheit
+        MOV FP, SP
+        
+        PRINTS 1
+        SCANS            // Read name string
+        STOREFP 1        // Store string ID
+        
+        PRINTS 2
+        LOADFP 1         // Load name ID
+        STRLOAD          // Load string
+        PRINTS 3
+        
+        SCANF            // Read celsius
+        STOREFP 0        // Store celsius
+        
+        // Convert to fahrenheit
+        LOADFP 0         // Load celsius
+        FPUSHF 9.0       // Push 9.0
+        FMUL             // Multiply
+        FPUSHF 5.0       // Push 5.0
+        FDIV             // Divide
+        FPUSHF 32.0      // Push 32.0
+        FADD             // Add
+        STOREFP 2        // Store fahrenheit
+        
+        // Print result
+        LOADFP 1         // Load name
+        STRLOAD          // Print name
+        PRINTS 4
+        LOADFP 0         // Load celsius
+        PRINTF           // Print celsius
+        PRINTS 5
+        LOADFP 2         // Load fahrenheit        
+        PRINTLNF         // Print fahrenheit with newline
+        IPUSHI 0         // Return 0
+        LEAVE
+        RET
 
-Rectangle_constructor:
-    PUSH FP
-    MOV FP, SP
-    
-    // Store width and height
-    LOAD [FP-8]     // Load width
-    SETFIELD 0      // Store in field 0
-    LOAD [FP-4]     // Load height
-    SETFIELD 4      // Store in field 4
-    
-    MOV SP, FP
-    POP FP
-    RET
 
-Rectangle_area:
-    PUSH FP
-    MOV FP, SP
-    
-    // Get fields and multiply
-    GETFIELD 0      // Get width
-    GETFIELD 4      // Get height
-    MUL             // Multiply
-    
-    MOV SP, FP
-    POP FP
-    RET
+

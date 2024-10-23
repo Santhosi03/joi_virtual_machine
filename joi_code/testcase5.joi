@@ -1,7 +1,0 @@
-// Example 5: Exception Handling
-int divide(int a, int b) {
-    if(b == 0) {
-        throw "Division by zero";
-    }
-    return a / b;
-}

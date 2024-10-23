@@ -21,9 +21,8 @@ class VM_Demo:
         self.lcl = 8196
         self.arg = 8200
         self.tmp = 8204
-        self.this = 8208
-        self.that = 8212
-        self.print_start = 8216
+        self.heap = 8208
+        self.print_start = 8212
         # 8216 and 8220 for later use
         # start from 8224
         self.text_segment = ".section\n.text\njal x30, main\n"
@@ -171,7 +170,7 @@ class VM_Demo:
                     self.text_segment += f"addi x30, x30, 4\n"
                     self.text_segment += f"sw x30, 0(x7)\n"
 
-        elif (segment != Segment.constant.value and segment != Segment.that.value):
+        elif (segment != Segment.constant.value and segment != Segment.heap.value):
             pointer = None
             if (segment == Segment.local.value):
                 pointer = self.lcl
@@ -263,7 +262,7 @@ class VM_Demo:
         elif (segment == Segment.argument.value):
             pointer = self.arg
 
-        if (segment == Segment.that.value):
+        if (segment == Segment.heap.value):
             self.text_segment += f"addi x2, x2, -4\n"
             self.text_segment += f"lw x5, 0(x2)\n"
             # self.text_segment += f"li x28, 2\n"
@@ -816,12 +815,7 @@ class VM_Demo:
         self.text_segment += f"sw x6, 0(x2)\n"
         self.text_segment += f"addi x2, x2, 4\n"
 
-        self.text_segment += f"li x5, {self.this}\n"
-        self.text_segment += f"lw x6, 0(x5)\n"
-        self.text_segment += f"sw x6, 0(x2)\n"
-        self.text_segment += f"addi x2, x2, 4\n"
-
-        self.text_segment += f"li x5, {self.that}\n"
+        self.text_segment += f"li x5, {self.heap}\n"
         self.text_segment += f"lw x6, 0(x5)\n"
         self.text_segment += f"sw x6, 0(x2)\n"
         self.text_segment += f"addi x2, x2, 4\n"
@@ -881,22 +875,19 @@ class VM_Demo:
         self.text_segment += f"lw x2, 0(x5)\n"
 
         self.text_segment += f"lw x5, -8(x2)\n"
-        self.text_segment += f"li x6, {self.that}\n"
+        self.text_segment += f"li x6, {self.heap}\n"
         self.text_segment += f"sw x5, 0(x6)\n"
-
+        
+        
         self.text_segment += f"lw x5, -12(x2)\n"
-        self.text_segment += f"li x6, {self.this}\n"
-        self.text_segment += f"sw x5, 0(x6)\n"
-
-        self.text_segment += f"lw x5, -16(x2)\n"
         self.text_segment += f"li x6, {self.tmp}\n"
         self.text_segment += f"sw x5, 0(x6)\n"
 
-        self.text_segment += f"lw x7, -20(x2)\n"
+        self.text_segment += f"lw x7, -16(x2)\n"
         # self.text_segment += f"li x6, -{self.arg}\n"
         # self.text_segment += f"sw x5, 0(x6)\n"
 
-        self.text_segment += f"lw x5, -24(x2)\n"
+        self.text_segment += f"lw x5, -20(x2)\n"
         self.text_segment += f"li x6, {self.lcl}\n"
         self.text_segment += f"sw x5, 0(x6)\n"
 

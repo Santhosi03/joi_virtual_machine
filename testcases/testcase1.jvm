@@ -1,12 +1,14 @@
 .strings
-1:"Sum "
-2:" is greater than 10\n"
-3:" is less than or equal to 10\n"
+1:"Enter two numbers: "
+2:"Sum "
+3:" is greater than 10\n"
+4:" is less than or equal to 10\n"
+5:"Difference is: "
         
         ENTER 4          // Space for a, b, sum, diff
         MOV FP, SP
         
-        PRINTS "Enter two numbers: "
+        PRINTS 1
         SCANI            // Read first number
         STOREFP 0        // Store in a
         SCANI            // Read second number
@@ -30,20 +32,20 @@
         GT               // Compare sum > 10
         JZ ELSE_BRANCH   // If not greater, jump to else
         
-        PRINTS 1
-        LOADFP 2         // Load sum
-        PRINTI           // Print sum
         PRINTS 2
-        JMP END_IF
-        
-ELSE_BRANCH:
-        PRINTS 1
         LOADFP 2         // Load sum
         PRINTI           // Print sum
         PRINTS 3
+        JMP END_IF
+        
+ELSE_BRANCH:
+        PRINTS 2
+        LOADFP 2         // Load sum
+        PRINTI           // Print sum
+        PRINTS 4
         
 END_IF:
-        PRINTS "Difference is: "
+        PRINTS 5
         LOADFP 3         // Load diff
         PRINTLNI         // Print with newline
         

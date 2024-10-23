@@ -1,9 +1,16 @@
-// Example 1: Simple Function Call
-int add(int a, int b) {
-    return a + b;
-}
-
 int main() {
-    int result = add(5, 3);
-    return result;
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+    
+    int sum = a + b;
+    int diff = a - b;
+    
+    if (sum > 10) {
+        printf("Sum %d is greater than 10\n", sum);
+    } else {
+        printf("Sum %d is less than or equal to 10\n", sum);
+    }
+    printf("Difference is: %d\n", diff);
+    return 0;
 }

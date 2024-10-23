@@ -1,28 +1,86 @@
-createArray:
-    IPUSH FP
-    MOV FP, SP
-    
-    LOAD [FP-4]     // Load size
-    ALLOC           // Allocate memory
-    IDUP             // Duplicate array pointer
-    
-    // Loop initialization
-    PUSH 0          // i = 0
-loop:
-    IDUP             // Duplicate i
-    LOAD [FP-4]     // Load size
-    LT              // Compare i < size
-    JZ end_loop
-    
-    // arr[i] = i
-    IDUP            // Duplicate array pointer and i
-    STORE           // Store i at arr[i]
-    
-    IPUSH 1
-    IADD             // i++
-    JMP loop
-    
-end_loop:
-    MOV SP, FP
-    IPOP FP
-    RET
+.strings
+1:"Enter array size: "
+2:"Enter "
+3:" numbers:\n"
+4:"Sum: "
+5:"Average: "
+6:"Maximum: "
+        
+        
+        ENTER 6          // Space for n, sum, max, i, num, avg
+        MOV FP, SP
+        
+        PRINTS 1
+        SCANI            // Read size
+        STOREFP 0        // Store n
+        
+        IPUSHI 0         // Initialize sum
+        STOREFP 1
+        IPUSHI 0         // Initialize max
+        STOREFP 2
+        IPUSHI 0         // Initialize i
+        STOREFP 3
+        
+        PRINTS 2
+        LOADFP 0         // Load n
+        PRINTI           // Print n
+        PRINTS 3
+        
+LOOP:
+        LOADFP 3         // Load i
+        LOADFP 0         // Load n
+        LT               // Compare i < n
+        JZ END_LOOP      // If false, exit loop
+        
+        SCANI            // Read number
+        STOREFP 4        // Store in num
+        
+        // Update sum
+        LOADFP 1         // Load sum
+        LOADFP 4         // Load num
+        IADD             // Add them
+        STOREFP 1        // Store new sum
+        
+        // Update max if needed
+        LOADFP 4         // Load num
+        LOADFP 2         // Load max
+        GT               // Compare num > max
+        JZ SKIP_MAX      // If false, skip update
+        LOADFP 4         // Load num
+        STOREFP 2        // Update max
+SKIP_MAX:
+        
+        // Increment i
+        LOADFP 3         // Load i
+        IPUSHI 1         // Push 1
+        IADD             // Add
+        STOREFP 3        // Store new i
+        JMP LOOP         // Repeat
+        
+END_LOOP:
+        // Calculate average
+        LOADFP 1         // Load sum
+        I2F              // Convert to float
+        LOADFP 0         // Load n
+        I2F              // Convert to float
+        FDIV             // Divide
+        STOREFP 5        // Store average
+        
+        // Print results
+        PRINTS 4
+        LOADFP 1
+        PRINTLNI
+        
+        PRINTS 5
+        LOADFP 5
+        PRINTLNF
+        
+        PRINTS 6
+        LOADFP 2
+        PRINTLNI
+        
+        IPUSHI 0
+        LEAVE
+        RET
+
+

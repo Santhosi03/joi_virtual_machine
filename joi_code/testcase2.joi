@@ -1,14 +1,15 @@
-// Example 2: Class with Method
-class Rectangle {
-private:
-    int width;
-    int height;
-public:
-    Rectangle(int w, int h) : width(w), height(h) {}
-    int area() { return width * height; }
-};
-
+// test2.cpp
 int main() {
-    Rectangle rect(4, 5);
-    return rect.area();
+    float celsius;
+    char name[50];
+    
+    printf("Enter your name: ");
+    scanf("%s", name);
+    printf("Hello %s! Enter temperature in Celsius: ", name);
+    scanf("%f", &celsius);
+    
+    float fahrenheit = (celsius * 9.0/5.0) + 32.0;
+    
+    printf("%s, %.2f°C is %.2f°F\n", name, celsius, fahrenheit);
+    return 0;
 }

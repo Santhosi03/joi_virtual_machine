@@ -1,47 +1,32 @@
-.strings
-1:"Enter your name: "
-2:"Hello "
-3:"! Enter temperature in Celsius: "
-4:", "
-5:"°C is "
-        
-        ENTER 3          // Space for celsius, name_id, fahrenheit
-        MOV FP, SP
-        
-        PRINTS 1
-        SCANS            // Read name string
-        STOREFP 1        // Store string ID
-        
-        PRINTS 2
-        LOADFP 1         // Load name ID
-        STRLOAD          // Load string
-        PRINTS 3
-        
-        SCANF            // Read celsius
-        STOREFP 0        // Store celsius
-        
-        // Convert to fahrenheit
-        LOADFP 0         // Load celsius
-        FPUSHF 9.0       // Push 9.0
-        FMUL             // Multiply
-        FPUSHF 5.0       // Push 5.0
-        FDIV             // Divide
-        FPUSHF 32.0      // Push 32.0
-        FADD             // Add
-        STOREFP 2        // Store fahrenheit
-        
-        // Print result
-        LOADFP 1         // Load name
-        STRLOAD          // Print name
-        PRINTS 4
-        LOADFP 0         // Load celsius
-        PRINTF           // Print celsius
-        PRINTS 5
-        LOADFP 2         // Load fahrenheit        
-        PRINTLNF         // Print fahrenheit with newline
-        IPUSHI 0         // Return 0
-        LEAVE
-        RET
+function main
 
+push data 0 "Enter your name: " STR
+print data 0 STR
 
+scan local 0 STR
 
+push data 1 "Hello! Enter temperature in Celsius: " STR
+print data 1 STR
+
+scan local 1 FLOAT
+
+push local 1 FLOAT
+push constant 9.0 FLOAT 
+mul FLOAT
+pop temp 0 FLOAT
+
+push temp 0 FLOAT
+push constant 5.0 FLOAT
+div FLOAT
+pop temp 1 FLOAT
+
+push temp 1 FLOAT
+push constant 32.0 FLOAT
+add FLOAT
+pop local 2 FLOAT
+
+push local 2 FLOAT
+print FLOAT
+
+push constant 0 INT 
+return INT

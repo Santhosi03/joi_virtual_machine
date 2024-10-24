@@ -6,7 +6,7 @@ int main() {
     int sum = 0;
     int max = 0;
     
-    printf("Enter %d numbers:\n", n);
+    printf("Enter the numbers:\n");
     for(int i = 0; i < n; i++) {
         int num;
         scanf("%d", &num);
@@ -14,9 +14,9 @@ int main() {
         if(num > max) max = num;
     }
     
-    float avg = (float)sum / n;
-    printf("Sum: %d\n", sum);
-    printf("Average: %.2f\n", avg);
-    printf("Maximum: %d\n", max);
+    float avg = sum / n;
+    printf("%d", sum);
+    printf("%f", avg);
+    printf("%d", max);
     return 0;
 }

@@ -38,7 +38,7 @@ class VM_Demo:
         self.data_segment_start = 0x10010000
         self.data_segment_dict = {}
         self.data_segment = ".section\n.data\n"
-        self.demo = False
+        self.demo = True
 
     def init_mem(self):
         # 8224 to 8735 (512, local)
@@ -746,7 +746,46 @@ class VM_Demo:
             self.text_segment += f"li a7, 2\n"
             self.text_segment += f"ecall\n"
         elif (datatype == Datatypes.STR.value):
-            pass
+                index = int(line[2])
+                if (self.demo):
+                    var_name = f"__{self.cur_function}__data{index}"
+                    total = hex(self.data_segment_dict[var_name][2])[2:]
+                    upper, mid, lower = get_ieee_rep(None, total)
+
+                    self.text_segment += f"lui a0, {upper}\n"
+                    self.text_segment += f"addi a0, a0, {mid}\n"
+                    self.text_segment += f"addi a0, a0, {lower}\n"
+                    self.text_segment += "addi a7, x0, 4\necall\n"
+                else:
+                    var_name = f"__{self.cur_function}__data{index}"
+                    total = hex(self.data_segment_dict[var_name][2])[2:]
+                    upper, mid, lower = get_ieee_rep(None, total)
+
+                    self.text_segment += f"lui x5, {upper}\n"
+                    self.text_segment += f"addi x5, x5, {mid}\n"
+                    self.text_segment += f"addi x5, x5, {lower}\n"
+
+                    for i in self.data_segment_dict[var_name][1].lstrip('"').rstrip('"'):
+                        self.text_segment += f"li x6, {ord(i)}\n"
+                        self.text_segment += f"li x7, {self.print_start}\n"
+                        self.text_segment += f"lw x30, 0(x7)\n"
+                        self.text_segment += f"li x28, 1\n"
+                        self.text_segment += f"sw x28, 0(x30)\n"
+                        self.text_segment += f"addi x30, x30, 4\n"
+                        
+                        self.text_segment += f"sw x6, 0(x30)\n"
+                        self.text_segment += f"addi x30, x30, 4\n"
+                        self.text_segment += f"sw x30, 0(x7)\n"
+
+                    self.text_segment += f"li x7, {self.print_start}\n"
+                    self.text_segment += f"lw x30, 0(x7)\n"
+                    self.text_segment += f"li x28, 1\n"
+                    self.text_segment += f"sw x28, 0(x30)\n"
+                    self.text_segment += f"addi x30, x30, 4\n"
+
+                    self.text_segment += f"sw x0, 0(x30)\n"
+                    self.text_segment += f"addi x30, x30, 4\n"
+                    self.text_segment += f"sw x30, 0(x7)\n"
 
         self.text_segment += '\n'
 
@@ -782,7 +821,46 @@ class VM_Demo:
             self.text_segment += f"sw x30, 0(x5)\n"
 
         elif (datatype == Datatypes.STR.value):
-            pass
+                index = int(line[2])
+                if (self.demo):
+                    var_name = f"__{self.cur_function}__data{index}"
+                    total = hex(self.data_segment_dict[var_name][2])[2:]
+                    upper, mid, lower = get_ieee_rep(None, total)
+
+                    self.text_segment += f"lui a0, {upper}\n"
+                    self.text_segment += f"addi a0, a0, {mid}\n"
+                    self.text_segment += f"addi a0, a0, {lower}\n"
+                    self.text_segment += "addi a7, x0, 4\necall\n"
+                else:
+                    var_name = f"__{self.cur_function}__data{index}"
+                    total = hex(self.data_segment_dict[var_name][2])[2:]
+                    upper, mid, lower = get_ieee_rep(None, total)
+
+                    self.text_segment += f"lui x5, {upper}\n"
+                    self.text_segment += f"addi x5, x5, {mid}\n"
+                    self.text_segment += f"addi x5, x5, {lower}\n"
+
+                    for i in self.data_segment_dict[var_name][1].lstrip('"').rstrip('"'):
+                        self.text_segment += f"li x6, {ord(i)}\n"
+                        self.text_segment += f"li x7, {self.print_start}\n"
+                        self.text_segment += f"lw x30, 0(x7)\n"
+                        self.text_segment += f"li x28, 1\n"
+                        self.text_segment += f"sw x28, 0(x30)\n"
+                        self.text_segment += f"addi x30, x30, 4\n"
+                        
+                        self.text_segment += f"sw x6, 0(x30)\n"
+                        self.text_segment += f"addi x30, x30, 4\n"
+                        self.text_segment += f"sw x30, 0(x7)\n"
+
+                    self.text_segment += f"li x7, {self.print_start}\n"
+                    self.text_segment += f"lw x30, 0(x7)\n"
+                    self.text_segment += f"li x28, 1\n"
+                    self.text_segment += f"sw x28, 0(x30)\n"
+                    self.text_segment += f"addi x30, x30, 4\n"
+
+                    self.text_segment += f"sw x0, 0(x30)\n"
+                    self.text_segment += f"addi x30, x30, 4\n"
+                    self.text_segment += f"sw x30, 0(x7)\n"
 
     def function_call(self, line):
         num_args = int(line[-1])

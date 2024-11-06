@@ -1,7 +1,7 @@
 //Test Case 6: Basic Integer Operations and I/O
 //Demonstrates: integer arithmetic, I/O, control flow, comparisons
 
-int main() {
+int joi() {
     int a, b;
     printf("Enter two numbers: ");
     scanf("%d %d", &a, &b);

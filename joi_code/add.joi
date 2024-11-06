@@ -1,1 +1,5 @@
-int m
+int joi()
+{
+    int a = 6;
+    print(a+7);
+}

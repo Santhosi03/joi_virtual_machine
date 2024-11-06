@@ -1,4 +1,4 @@
-function main
+function joi
 
 push data 0 "Enter your name: " STR
 print data 0 STR

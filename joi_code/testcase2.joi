@@ -1,5 +1,5 @@
 
-int main() {
+int joi() {
     float celsius;
     string name;
     

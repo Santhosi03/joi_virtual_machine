@@ -1,5 +1,6 @@
 import enum
 
+
 class Instructions(enum.Enum):
     push = 'push'
     pop = 'pop'
@@ -34,7 +35,7 @@ class Segment(enum.Enum):
     argument = 'argument'
     constant = 'constant'
     temp = 'temp'
-    that = 'that'
+    heap = 'heap'
     data = 'data'
 
 

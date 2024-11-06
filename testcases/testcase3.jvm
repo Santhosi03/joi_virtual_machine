@@ -1,86 +1,61 @@
-.strings
-1:"Enter array size: "
-2:"Enter "
-3:" numbers:\n"
-4:"Sum: "
-5:"Average: "
-6:"Maximum: "
-        
-        
-        ENTER 6          // Space for n, sum, max, i, num, avg
-        MOV FP, SP
-        
-        PRINTS 1
-        SCANI            // Read size
-        STOREFP 0        // Store n
-        
-        IPUSHI 0         // Initialize sum
-        STOREFP 1
-        IPUSHI 0         // Initialize max
-        STOREFP 2
-        IPUSHI 0         // Initialize i
-        STOREFP 3
-        
-        PRINTS 2
-        LOADFP 0         // Load n
-        PRINTI           // Print n
-        PRINTS 3
-        
-LOOP:
-        LOADFP 3         // Load i
-        LOADFP 0         // Load n
-        LT               // Compare i < n
-        JZ END_LOOP      // If false, exit loop
-        
-        SCANI            // Read number
-        STOREFP 4        // Store in num
-        
-        // Update sum
-        LOADFP 1         // Load sum
-        LOADFP 4         // Load num
-        IADD             // Add them
-        STOREFP 1        // Store new sum
-        
-        // Update max if needed
-        LOADFP 4         // Load num
-        LOADFP 2         // Load max
-        GT               // Compare num > max
-        JZ SKIP_MAX      // If false, skip update
-        LOADFP 4         // Load num
-        STOREFP 2        // Update max
-SKIP_MAX:
-        
-        // Increment i
-        LOADFP 3         // Load i
-        IPUSHI 1         // Push 1
-        IADD             // Add
-        STOREFP 3        // Store new i
-        JMP LOOP         // Repeat
-        
-END_LOOP:
-        // Calculate average
-        LOADFP 1         // Load sum
-        I2F              // Convert to float
-        LOADFP 0         // Load n
-        I2F              // Convert to float
-        FDIV             // Divide
-        STOREFP 5        // Store average
-        
-        // Print results
-        PRINTS 4
-        LOADFP 1
-        PRINTLNI
-        
-        PRINTS 5
-        LOADFP 5
-        PRINTLNF
-        
-        PRINTS 6
-        LOADFP 2
-        PRINTLNI
-        
-        IPUSHI 0
-        LEAVE
-        RET
+function main
 
+push data 0 "Enter array size: " STR
+print data 0 STR 
+scan local 0 INT
 
+push constant 0 INT 
+pop local 1 INT 
+
+push constant 0 INT
+pop local 2 INT
+
+push constant 0 INT
+pop local 3 INT
+
+label #L1
+push local 3 INT
+push local 0 INT 
+lt INT
+
+if-goto #L2
+goto #L3
+label #L2
+scan local 4 INT
+push local 4 INT
+push local 1 INT
+pop local 1 INT
+push local 4 INT
+push local 2 INT 
+gt INT
+if-goto #L4
+goto #L5
+
+label #L4
+push local 4 INT 
+pop local 2 INT
+
+label #L5
+push local 3 INT
+push constant 0 INT
+add INT
+pop local 3 INT
+goto #L1
+
+label #L3
+push local 1 INT 
+push local 0 INT
+div FLOAT 
+pop local 5 FLOAT
+
+push local 1 INT
+print INT
+
+push local 5 FLOAT
+print FLOAT
+
+push local 2 INT
+print INT
+
+push constant 0 INT
+return INT

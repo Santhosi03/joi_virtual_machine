@@ -1,54 +1,34 @@
-.strings
-1:"Enter two numbers: "
-2:"Sum "
-3:" is greater than 10\n"
-4:" is less than or equal to 10\n"
-5:"Difference is: "
-        
-        ENTER 4          // Space for a, b, sum, diff
-        MOV FP, SP
-        
-        PRINTS 1
-        SCANI            // Read first number
-        STOREFP 0        // Store in a
-        SCANI            // Read second number
-        STOREFP 1        // Store in b
-        
-        // Calculate sum
-        LOADFP 0         // Load a
-        LOADFP 1         // Load b
-        IADD             // Add them
-        STOREFP 2        // Store in sum
-        
-        // Calculate difference
-        LOADFP 0         // Load a
-        LOADFP 1         // Load b
-        ISUB             // Subtract
-        STOREFP 3        // Store in diff
-        
-        // Compare sum with 10
-        LOADFP 2         // Load sum
-        IPUSHI 10        // Push 10
-        GT               // Compare sum > 10
-        JZ ELSE_BRANCH   // If not greater, jump to else
-        
-        PRINTS 2
-        LOADFP 2         // Load sum
-        PRINTI           // Print sum
-        PRINTS 3
-        JMP END_IF
-        
-ELSE_BRANCH:
-        PRINTS 2
-        LOADFP 2         // Load sum
-        PRINTI           // Print sum
-        PRINTS 4
-        
-END_IF:
-        PRINTS 5
-        LOADFP 3         // Load diff
-        PRINTLNI         // Print with newline
-        
-        IPUSHI 0         // Return 0
-        LEAVE
-        RET
+function main
+
+push data 0 "Enter two numbers: " STR 
+print data 0 STR 
+scan local 0 INT 
+scan local 1 INT
+
+push local 0 INT
+push local 1 INT 
+add INT
+pop local 2 INT
+
+push local 0 INT
+push local 1 INT
+sub INT
+pop local 3 INT
+
+push local 2 INT
+push constant 10 INT
+gt INT
+
+if-goto #L1
+goto #L2
+
+label #L1
+push data 0 "Sum is greater than 10" STR
+print data 0 STR
+
+label #L2
+push data 1 "Sum is less than or equal to 10\n" STR
+print data 1 STR
+
+push constant 0 INT
+return INT

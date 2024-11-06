@@ -1,5 +1,4 @@
-// test2.cpp
-int main() {
+int joi() {
     float celsius;
     char name[50];
     

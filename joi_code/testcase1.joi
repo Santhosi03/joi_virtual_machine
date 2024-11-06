@@ -1,4 +1,4 @@
-int main() {
+int joi() {
     int a, b;
     printf("Enter two numbers: ");
     scanf("%d %d", &a, &b);

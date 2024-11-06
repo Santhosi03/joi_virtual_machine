@@ -1,4 +1,4 @@
-function main
+function joi
 
 push constant 6 INT
 pop local 0 INT

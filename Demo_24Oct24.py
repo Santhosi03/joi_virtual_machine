@@ -25,7 +25,7 @@ class VM_Demo:
         self.print_start = 8212
         # 8216 and 8220 for later use
         # start from 8224
-        self.text_segment = ".section\n.text\njal x30, main\n"
+        self.text_segment = ".section\n.text\njal x30, joi\n"
         self.prev_operator = None
         self.prev_datatype = None
         self.prev_push_segment = None
@@ -39,6 +39,9 @@ class VM_Demo:
         self.data_segment_dict = {}
         self.data_segment = ".section\n.data\n"
         self.demo = True
+        self.has_return = False
+        self.functions = {}  # Dictionary to store function names and their validity
+
 
     def init_mem(self):
         # 8224 to 8735 (512, local)
@@ -868,6 +871,13 @@ class VM_Demo:
         if (num_args == 0):
             self.push('push constant 0 INT'.split(' '))
 
+        func_name = line[1]
+        if func_name not in self.functions:
+            raise ValueError(f"Linking error: Function '{func_name}' is not defined.")
+        
+        if not self.functions[func_name]:
+            raise ValueError(f"Linking error: Function '{func_name}' lacks a valid return statement.")
+
         # storing current arg pointer in x7 register
         self.text_segment += f"li x5, {self.arg}\n"
         self.text_segment += f"lw x7, 0(x5)\n"
@@ -898,7 +908,7 @@ class VM_Demo:
         self.text_segment += f"sw x6, 0(x2)\n"
         self.text_segment += f"addi x2, x2, 4\n"
 
-        self.text_segment += f"jal x1, {line[1]}\n"
+        self.text_segment += f"jal x1, {func_name}\n"
 
         # self.text_segment += '\n'
 
@@ -906,12 +916,21 @@ class VM_Demo:
         """
         function mult 2 3 FLOAT
         """
+                # If a new function starts without a return in the previous one, throw an error
+        if self.cur_function!="global" and not self.has_return:
+            raise ValueError(f"Linking error: Function '{self.cur_function}' is missing a return statement.")
 
-        self.num_local = int(line[-3])
-        self.num_temp = int(line[-2])
+        print(line)
+        # self.num_local = int(line[-3])
+        self.num_local = int(line[-2])
+        # self.num_temp = int(line[-2])
+        self.num_temp = 5
         function = line[1]
         self.cur_function = function
-        if (function == 'main'):
+        self.functions[function] = False  # Mark as not yet confirmed valid
+        self.has_return = False  # Reset return tracker
+
+        if (function == 'joi'):
             self.text_segment += f"{function}:\n"
             self.init_mem()
             # self.text_segment += '\n'
@@ -938,9 +957,13 @@ class VM_Demo:
 
     def return_call(self, line):
 
-        if (self.cur_function == 'main'):
+        if (self.cur_function == 'joi'):
             self.text_segment += f"jal x30, __END__\n"
             return
+        
+        if self.cur_function!="global":
+            self.has_return = True
+            self.functions[self.cur_function] = True  # Mark function as valid
 
         self.text_segment += f"addi x2, x2, -4\n"
         self.text_segment += f"lw x5, 0(x2)\n"
@@ -1061,3 +1084,4 @@ class VM_Demo:
 
         final_code = self.data_segment + self.text_segment
         return final_code
+    

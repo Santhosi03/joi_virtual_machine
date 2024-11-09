@@ -1,6 +1,14 @@
+#include <math.h>
+
 int add(int a, int b);
 
 int joi(){
-    int result = add(10, 20);
+    int a=9;
+    int b=20;
+    int c=45;
+    int m1=max(a,b);
+    int m2=max(b,c);
+    int result = add(m1,m2);
+    printf("%d",result);
     return 0;
 }

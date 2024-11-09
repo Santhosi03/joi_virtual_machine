@@ -1,5 +1,6 @@
 from enums import *
 import re
+import os
 
 
 class Preprocess:
@@ -23,7 +24,17 @@ class Preprocess:
             if len(split_line) == 0:
                 continue
 
-            if split_line[0] == 'function':
+            if split_line[0] == 'lib':
+                script_dir = os.path.dirname(__file__)
+                lib_path='libraries/'+split_line[-1]
+                lib_abs_path = os.path.join(script_dir, lib_path)
+                with open(lib_abs_path) as lib_file:
+                    mod_vm_code += re.sub(r'lib .*', '', line).strip()
+                    mod_vm_code=self.preprocess(lib_file.read())+mod_vm_code
+                
+                print(mod_vm_code, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+
+            elif split_line[0] == 'function':
                 if len(split_line) < 5:
                     # Add default values to handle missing elements
                     split_line += ['0'] * (5 - len(split_line))
@@ -60,12 +71,12 @@ class Preprocess:
                 mod_vm_code += f"label {label1}\n"
 
             elif '//' in line:
-                mod_vm_code += re.sub(r';.*', '\n', line).strip() + '\n'
+                mod_vm_code += re.sub(r'//.*', '', line).strip()
 
             elif '#' in line:
                 mod_vm_code += re.sub(r'#', '__', line) + '\n'
 
             else:
                 mod_vm_code += line + '\n'
-
+        print("------------modified---",mod_vm_code)
         return mod_vm_code

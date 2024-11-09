@@ -93,7 +93,7 @@ if __name__ == '__main__':
     asm_code = asm_generator.generate_target_code(vm_code)
 
     # Write output to the specified asm file
-    output_path = os.path.join(script_dir, 'actual_outputs/testcase5.asm')
+    output_path = os.path.join(script_dir, 'actual_outputs/testcase6.asm')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w+') as output_file:
         output_file.write(asm_code)

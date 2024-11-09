@@ -1,19 +1,9 @@
-//Test Case 6: Basic Integer Operations and I/O
-//Demonstrates: integer arithmetic, I/O, control flow, comparisons
+#include <math.h>
 
-int joi() {
-    int a, b;
-    printf("Enter two numbers: ");
-    scanf("%d %d", &a, &b);
-    
-    int sum = a + b;
-    int diff = a - b;
-    
-    if (sum > 10) {
-        printf("Sum %d is greater than 10\n", sum);
-    } else {
-        printf("Sum %d is less than or equal to 10\n", sum);
-    }
-    printf("Difference is: %d\n", diff);
+int joi(){
+    int a = 14;
+    int b = 20;
+    int c = max(a,b);
+    printf("%d",c);
     return 0;
 }

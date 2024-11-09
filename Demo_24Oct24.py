@@ -4,6 +4,14 @@ from postprocess import *
 
 import re
 
+'''TODO:
+1) Heap Memory Segment actual implementation(init_mem)
+2) Arrays mem alloc using heap/stack(Search in net and implement accordingly)
+3) Dynamic Mem alloc like new and delete
+4) Structs support
+5) Object Oriented Support(Class Objects)
+6) Linking strong testing 
+'''
 def simple_split(line):
     # Use a regular expression to match words or quoted phrases
     parts = re.findall(r'(?:[^\s"]+|"[^"]*")+', line)
@@ -1031,7 +1039,7 @@ class VM_Demo:
 
         preprocess = Preprocess()
         vm_code = preprocess.preprocess(vm_code)
-
+        print("pppppppppppppppps",vm_code,"ppppppppppppppps")
         for line in vm_code.splitlines():
             # print(line)
             line = simple_split(line)

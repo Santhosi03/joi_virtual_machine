@@ -1,0 +1,23 @@
+//int max(int a,int b)
+//{
+//  if(a>b)
+//  {
+//    return a;
+//  }
+//  return b;  
+//}
+
+function max 2 INT
+push argument 0 INT
+push argument 1 INT
+gt INT
+if-goto #L1
+goto #L2
+label #L1
+push argument 0 INT
+return INT
+goto #L3
+label #L2
+push argument 1 INT
+return INT
+label #L3

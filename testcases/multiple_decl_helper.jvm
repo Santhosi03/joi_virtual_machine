@@ -1,0 +1,5 @@
+function add 2 INT
+push argument 0 INT
+push argument 1 INT
+add INT
+return

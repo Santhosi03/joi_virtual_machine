@@ -21,6 +21,8 @@ def preprocess_main_file(main_code, helper_codes):
                 function_name = tokens[1]
         if tokens and tokens[0]=='return':
                 if function_name:
+                    if function_name in main_functions:
+                        raise ValueError(f"Multiple declarations of {function_name}")
                     main_functions[function_name] = True
                     
     for helper_code in helper_codes:
@@ -53,8 +55,10 @@ def preprocess_main_file(main_code, helper_codes):
         tokens = line.split()
         print(tokens,"...............tokens")
         # Check for function declaration in the main file
-        if tokens and tokens[0] == 'function' and tokens[1] in helper_functions and tokens[1] not in main_functions:
+        if tokens and tokens[0] == 'function' and tokens[1] in helper_functions:
             # Replace function declaration with the actual code from the helper file
+            if tokens[1] in main_functions:
+                raise ValueError(f"Multiple declarations of {tokens[1]}")
             processed_code.append(helper_functions[tokens[1]])
             print(tokens[1], " 8kk ")
             # skip_lines = True
@@ -93,7 +97,7 @@ if __name__ == '__main__':
     asm_code = asm_generator.generate_target_code(vm_code)
 
     # Write output to the specified asm file
-    output_path = os.path.join(script_dir, 'actual_outputs/testcase5.asm')
+    output_path = os.path.join(script_dir, 'actual_outputs/library_test.asm')
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w+') as output_file:
         output_file.write(asm_code)

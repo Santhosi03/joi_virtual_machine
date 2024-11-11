@@ -26,13 +26,17 @@ class Preprocess:
 
             if split_line[0] == 'lib':
                 script_dir = os.path.dirname(__file__)
-                lib_path='libraries/'+split_line[-1]
+                lib_path = 'libraries/' + split_line[-1]
                 lib_abs_path = os.path.join(script_dir, lib_path)
-                with open(lib_abs_path) as lib_file:
-                    mod_vm_code += re.sub(r'lib .*', '', line).strip()
-                    mod_vm_code=self.preprocess(lib_file.read())+mod_vm_code
                 
-                print(mod_vm_code, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+                try:
+                    with open(lib_abs_path) as lib_file:
+                        mod_vm_code += re.sub(r'lib .*', '', line).strip()
+                        mod_vm_code = self.preprocess(lib_file.read()) + mod_vm_code
+                        
+                    print(mod_vm_code, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+                except FileNotFoundError:
+                    raise FileNotFoundError(f"Missing library: '{split_line[-1]}' not found in libraries directory")
 
             elif split_line[0] == 'function':
                 if len(split_line) < 5:

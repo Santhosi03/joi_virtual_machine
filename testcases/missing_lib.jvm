@@ -1,0 +1,15 @@
+lib stdio.jvm
+
+function joi
+push constant 14 INT
+pop local 0 INT
+push constant 20 INT
+pop local 1 INT
+push local 0 INT
+push local 1 INT
+call max 2
+pop local 2 INT
+push local 2 INT
+print INT
+push constant 0 INT
+return INT  

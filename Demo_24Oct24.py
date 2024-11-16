@@ -873,13 +873,18 @@ class VM_Demo:
                     self.text_segment += f"addi x30, x30, 4\n"
                     self.text_segment += f"sw x30, 0(x7)\n"
 
-    def function_call(self, line):
-        num_args = int(line[-1])
+    def function_call(self, line,functions):
+        num_args = int(line[-2])
+        call_type=line[-1]
+        call_args=line[-2]
+        func_name = line[1]
+        
+        if (functions[func_name][0]!=call_args or functions[func_name][1]!=call_type):
+            raise ValueError(f"Function {func_name} implementation doesn't match declaration.")
 
         if (num_args == 0):
             self.push('push constant 0 INT'.split(' '))
 
-        func_name = line[1]
         if func_name not in self.functions:
             raise ValueError(f"Linking error: Function '{func_name}' is not defined.")
         
@@ -1038,7 +1043,8 @@ class VM_Demo:
     def generate_target_code(self, vm_code):
 
         preprocess = Preprocess()
-        vm_code = preprocess.preprocess(vm_code)
+        functions={}
+        vm_code = preprocess.preprocess(vm_code,functions)
         print("pppppppppppppppps",vm_code,"ppppppppppppppps")
         for line in vm_code.splitlines():
             # print(line)
@@ -1077,7 +1083,7 @@ class VM_Demo:
                 else:
                     self.new_print_stmt(line)
             elif (line[0] == Instructions.call.value):
-                self.function_call(line)
+                self.function_call(line,functions)
             elif (line[0] == Instructions.scan.value):
                 self.scan(line)
                 # pass

@@ -2,6 +2,7 @@ import sys
 import os
 from Demo_24Oct24 import VM_Demo
 
+functions={}
 def preprocess_main_file(main_code, helper_codes):
     """Process the main file to replace function declarations with actual code from helper files."""
     main_lines = main_code.splitlines()
@@ -11,7 +12,7 @@ def preprocess_main_file(main_code, helper_codes):
     helper_functions = {}
     main_functions={}
     function_name = None
-
+    func_dec={}
     # Parse each helper file to identify functions and store their code
     for line in main_lines:
         tokens = line.split()
@@ -19,6 +20,7 @@ def preprocess_main_file(main_code, helper_codes):
                 # Store previous function if it exists
                 # Start a new function
                 function_name = tokens[1]
+                func_dec[function_name]=[tokens[2],tokens[3]]
         if tokens and tokens[0]=='return':
                 if function_name:
                     if function_name in main_functions:
@@ -75,6 +77,7 @@ if __name__ == '__main__':
     # Get paths for the main file and helper files from arguments
     script_dir = os.path.dirname(__file__)
     main_file_path = sys.argv[1]
+    save_path='./actual_outputs/'+sys.argv[-1]+'.asm'
     main_abs_path = os.path.join(script_dir, main_file_path)
     
     # Load main file content
@@ -83,7 +86,7 @@ if __name__ == '__main__':
     
     # Load helper file contents
     helper_codes = []
-    for helper_path in sys.argv[2:]:
+    for helper_path in sys.argv[2:-1]:
         helper_abs_path = os.path.join(script_dir, helper_path)
         with open(helper_abs_path) as helper_file:
             helper_codes.append(helper_file.read())
@@ -97,7 +100,7 @@ if __name__ == '__main__':
     asm_code = asm_generator.generate_target_code(vm_code)
 
     # Write output to the specified asm file
-    output_path = os.path.join(script_dir, 'actual_outputs/library_test.asm')
+    output_path = os.path.join(script_dir, save_path)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w+') as output_file:
         output_file.write(asm_code)

@@ -12,7 +12,7 @@ class Preprocess:
         self.label_index += 1
         return label
 
-    def preprocess(self, vm_code):
+    def preprocess(self, vm_code,functions):
 
         generator = (i for i in vm_code.splitlines())
 
@@ -32,7 +32,7 @@ class Preprocess:
                 try:
                     with open(lib_abs_path) as lib_file:
                         mod_vm_code += re.sub(r'lib .*', '', line).strip()
-                        mod_vm_code = self.preprocess(lib_file.read()) + mod_vm_code
+                        mod_vm_code = self.preprocess(lib_file.read(),functions) + mod_vm_code
                         
                     print(mod_vm_code, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
                 except FileNotFoundError:
@@ -51,6 +51,15 @@ class Preprocess:
                     mod_vm_code += f'function {split_line[1]} {split_line[2]} 10 {split_line[4]}\n'
                 else:
                     mod_vm_code += line + '\n'
+                    
+                    
+                func_name=split_line[1]
+                func_args=split_line[2]
+                func_type=split_line[3]
+                if func_name in functions:
+                    if functions[func_name][0]!=func_args or functions[func_name][1]!=func_type:
+                        raise ValueError(f"Function {func_name} implementation doesn't match declaration.")
+                functions[func_name]=[func_args,func_type]
 
             elif split_line[0] == Instructions.Neq.value:
                 mod_vm_code += f"eq {split_line[-1]}\n"

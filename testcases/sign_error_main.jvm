@@ -1,0 +1,25 @@
+lib math.jvm
+function add 2 FLOAT
+function joi 
+push constant 9 INT
+pop local 0 INT
+push constant 20 INT
+pop local 1 INT
+push constant 45 INT
+pop local 2 INT
+push local 0 INT
+push local 1 INT
+call max 2 INT
+pop local 3 INT
+push local 1 INT
+push local 2 INT
+call max 2 INT 
+pop local 4 INT
+push local 3 INT
+push local 4 INT
+call add 2 INT
+pop local 5 INT
+push local 5 INT
+print INT
+push constant 0 INT
+return INT

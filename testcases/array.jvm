@@ -1,0 +1,50 @@
+function joi
+
+alloc 5 INT
+pop local 0 PTR 
+
+
+push constant 0 INT 
+pop local 1 INT
+
+push constant 0 INT
+pop local 2 INT
+
+label #L1
+push constant 5 INT
+push local 2 INT
+gt INT
+
+if-goto #L2
+goto #L3
+
+label #L2
+push local 2 INT
+push constant 1 INT
+add INT
+pop temp 0 INT
+push local 0 PTR
+push local 2 INT
+getindex
+push temp 0 INT
+store INT
+push local 1 INT
+push local 0 PTR
+push local 2 INT
+getindex
+access INT
+add INT
+pop local 1 INT
+push local 2 INT
+push constant 1 INT
+add INT
+pop local 2 INT
+goto #L1
+
+label #L3
+
+push local 1 INT
+print INT
+
+push constant 0 INT
+return INT

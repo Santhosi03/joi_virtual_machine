@@ -12,6 +12,10 @@ class Instructions(enum.Enum):
     print_stmt = 'print'
     call = 'call'
     scan = 'scan'
+    alloc = 'alloc'
+    getindex= 'getindex'
+    store = 'store'
+    delete = 'delete'
 
     Eq = 'eq'
     Lt = 'lt'
@@ -35,7 +39,6 @@ class Segment(enum.Enum):
     argument = 'argument'
     constant = 'constant'
     temp = 'temp'
-    heap = 'heap'
     data = 'data'
 
 
@@ -45,6 +48,7 @@ class Datatypes(enum.Enum):
     BOOL = 'BOOL'
     CHAR = 'CHAR'
     STR = 'STR'
+    PTR = 'PTR'
 
 
 class Operators(enum.Enum):

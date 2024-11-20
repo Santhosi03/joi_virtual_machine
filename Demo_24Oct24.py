@@ -1,6 +1,7 @@
 from enums import *
 from preprocess import *
 from postprocess import *
+from heap import *
 
 import re
 
@@ -31,8 +32,20 @@ class VM_Demo:
         self.tmp = 8204
         self.heap = 8208
         self.print_start = 8212
-        # 8216 and 8220 for later use
+        # 8220 for later use
         # start from 8224
+        self.pointer_segment=8216
+        self.heap_manager=HeapMemoryManager()
+        self.pointer_count = 0
+        self.data_size = {
+            'INT': 4,
+            'FLOAT': 4,
+            'CHAR': 1,
+            'BOOL': 1,
+            'PTR': 12  # 3 integers: base_address, size, datatype
+        }
+        self.type_check_label = None
+        self.type_dict={'INT': 1, 'FLOAT': 2, 'CHAR': 3, 'BOOL': 4}
         self.text_segment = ".section\n.text\njal x30, joi\n"
         self.prev_operator = None
         self.prev_datatype = None
@@ -49,7 +62,6 @@ class VM_Demo:
         self.demo = True
         self.has_return = False
         self.functions = {}  # Dictionary to store function names and their validity
-
 
     def init_mem(self):
         # 8224 to 8735 (512, local)
@@ -73,6 +85,18 @@ class VM_Demo:
         # 9280 to 10303 (1024, stack)
         self.text_segment += f"li x5, 9280\n"
         self.text_segment += f"li x6, {self.sp}\n"
+        self.text_segment += f"add x6, x8, x6\n"
+        self.text_segment += f"sw x5, 0(x6)\n"
+        
+        # 10304 to 11327 (1024, heap)
+        self.text_segment += f"li x5, 10304\n"
+        self.text_segment += f"li x6, {self.heap}\n"
+        self.text_segment += f"add x6, x8, x6\n"
+        self.text_segment += f"sw x5, 0(x6)\n"
+        
+        # 11328 to 11839 (512, pointer_segment)
+        self.text_segment += f"li x5, 11328\n"
+        self.text_segment += f"li x6, {self.pointer_segment}\n"
         self.text_segment += f"add x6, x8, x6\n"
         self.text_segment += f"sw x5, 0(x6)\n"
 
@@ -100,6 +124,141 @@ class VM_Demo:
         goto L0
         """
         self.text_segment += f"jal x30, {line[-1]}\n"
+        
+    def alloc(self, line):
+        """
+        alloc 10 INT
+        Allocates memory in heap and pushes pointer triplet to stack
+        """
+        size = int(line[1])
+        datatype = line[2]
+        required_bytes = size * self.data_size[datatype]
+        
+        # Align to 4 bytes
+        if required_bytes % 4 != 0:
+            required_bytes += 4 - (required_bytes % 4)
+            
+        base_address = self.heap_manager.first_fit(required_bytes)
+        if base_address is None:
+            raise Exception("Out of memory")
+            
+        # Store pointer information
+        self.text_segment += f"# Storing pointer information\n"
+        self.text_segment += f"li x5, {self.pointer_segment}\n"
+        self.text_segment += f"add x5, x5, x8\n"
+        self.text_segment += f"lw x6, 0(x5)\n"  # Current pointer segment position
+        
+        # Store triplet (base_address, size, datatype)
+        type_code = self.type_dict[datatype]
+        
+        self.text_segment += f"li x7, {base_address}\n"
+        self.text_segment += f"sw x7, 0(x6)\n"
+        self.text_segment += f"li x7, {size}\n"
+        self.text_segment += f"sw x7, 4(x6)\n"
+        self.text_segment += f"li x7, {type_code}\n"
+        self.text_segment += f"sw x7, 8(x6)\n"
+        
+        # Update pointer segment position
+        self.text_segment += f"addi x6, x6, 12\n"
+        self.text_segment += f"sw x6, 0(x5)\n"
+        
+        # Push triplet to stack
+        self.text_segment += f"# Pushing pointer triplet to stack\n"
+        self.text_segment += f"li x5, {base_address}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+        self.text_segment += f"li x5, {size}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+        self.text_segment += f"li x5, {type_code}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+
+    def getindex(self, line):
+        """
+        getindex
+        Calculates array index address from pointer and index
+        Uses x20-x25 for temporary storage to avoid conflicts
+        """
+        self.text_segment += f"# Calculate array index address\n"
+        # Pop index
+        self.text_segment += f"addi x2, x2, -4\n"
+        self.text_segment += f"lw x20, 0(x2)\n"  # Index in x20
+        
+        # Pop pointer triplet (using x21-x23 for storage)
+        self.text_segment += f"addi x2, x2, -12\n"
+        self.text_segment += f"lw x21, 0(x2)\n"  # Base address in x21
+        self.text_segment += f"lw x22, 4(x2)\n"  # Size in x22
+        self.text_segment += f"lw x23, 8(x2)\n"  # Type code in x23
+        
+        # Check bounds
+        self.text_segment += f"bge x20, x22, array_out_of_bounds\n"
+        self.text_segment += f"bltz x20, array_out_of_bounds\n"
+        
+        # Calculate offset based on type
+        self.text_segment += f"# Determine element size based on type\n"
+        # x24 will store element size
+        self.text_segment += f"li x24, 0\n"  # Initialize element size
+        
+        self.text_segment += f"jal x1, type_check\n"
+        
+        
+        # # Calculation of final address
+        # self.text_segment += f"type_calculate_address:\n"
+        self.text_segment += f"mul x20, x20, x24\n"  # Multiply index by element size
+        self.text_segment += f"add x20, x20, x21\n"
+        # Push calculated address
+        self.text_segment += f"sw x20, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+
+    def store(self, line):
+        """
+        store INT
+        Stores value at calculated address
+        Uses x20-x21 for temporary storage
+        """
+        datatype = line[1]
+        self.text_segment += f"# Store value at address\n"
+        
+        # Pop value and address
+        self.text_segment += f"addi x2, x2, -4\n"
+        self.text_segment += f"lw x20, 0(x2)\n"  # Value in x20
+        self.text_segment += f"addi x2, x2, -4\n"
+        self.text_segment += f"lw x21, 0(x2)\n"  # Address in x21
+        
+        if datatype == 'INT' or datatype == 'PTR':
+            self.text_segment += f"sw x20, 0(x21)\n"
+        elif datatype == 'FLOAT':
+            self.text_segment += f"fmv.s.x f0, x20\n"
+            self.text_segment += f"fsw f0, 0(x21)\n"
+        elif datatype == 'CHAR' or datatype == 'BOOL':
+            self.text_segment += f"sb x20, 0(x21)\n"
+
+    def access(self, line):
+        """
+        access INT
+        Retrieves value from calculated address and pushes it onto stack
+        Uses x20-x21 for temporary storage
+        """
+        datatype = line[1]
+        self.text_segment += f"# Access value at address\n"
+        
+        # Pop address
+        self.text_segment += f"addi x2, x2, -4\n"
+        self.text_segment += f"lw x21, 0(x2)\n"  # Address in x21
+        
+        # Load value based on datatype
+        if datatype == 'INT' or datatype == 'PTR':
+            self.text_segment += f"lw x20, 0(x21)\n"
+        elif datatype == 'FLOAT':
+            self.text_segment += f"flw f0, 0(x21)\n"
+            self.text_segment += f"fmv.x.w x20, f0\n"
+        elif datatype == 'CHAR' or datatype == 'BOOL':
+            self.text_segment += f"lb x20, 0(x21)\n"
+        
+        # Push value onto stack
+        self.text_segment += f"sw x20, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
 
     def push(self, line):
         """
@@ -181,7 +340,7 @@ class VM_Demo:
                     self.text_segment += f"addi x30, x30, 4\n"
                     self.text_segment += f"sw x30, 0(x7)\n"
 
-        elif (segment != Segment.constant.value and segment != Segment.heap.value):
+        elif (segment != Segment.constant.value):
             pointer = None
             if (segment == Segment.local.value):
                 pointer = self.lcl
@@ -197,7 +356,12 @@ class VM_Demo:
                 self.text_segment += f"add x5, x5, x8\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
 
-                self.text_segment += f"addi x5, x5, {(index*4+4)}\n"
+                self.text_segment += f"addi x5, x5, {(index*4
+                
+                
+                
+                
+                +4)}\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
                 self.text_segment += f"sw x5, 0(x2)\n"
                 self.text_segment += f"addi x2, x2, 4\n"
@@ -273,19 +437,6 @@ class VM_Demo:
         elif (segment == Segment.argument.value):
             pointer = self.arg
 
-        if (segment == Segment.heap.value):
-            self.text_segment += f"addi x2, x2, -4\n"
-            self.text_segment += f"lw x5, 0(x2)\n"
-            # self.text_segment += f"li x28, 2\n"
-            self.text_segment += f"addi x2, x2, -4\n"
-            self.text_segment += f"lw x6, 0(x2)\n"
-            self.text_segment += f"li x7, {self.lcl}\n"
-            self.text_segment += f"lw x7, 0(x7)\n"
-            self.text_segment += f"add x7, x7, x5\n"
-            self.text_segment += f"sw x6, 0(x7)\n"
-
-            # self.text_segment += '\n'
-            return
 
         if (datatype == Datatypes.INT.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -734,6 +885,7 @@ class VM_Demo:
             self.text_segment += f"add a0, x5, x0\n"
             self.text_segment += f"addi x2, x2, 4\n"
             self.text_segment += f"li a7, 1\n"
+            self.text_segment += "#PRINT PANREN DAA"
             self.text_segment += f"ecall\n"
         elif (datatype == Datatypes.CHAR.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -1040,6 +1192,40 @@ class VM_Demo:
         self.text_segment += f"addi x2, x2, 4\n"
         self.pop(f"pop {line[1]} {line[2]} {line[3]}".split(' '))
 
+
+
+    def generate_type_conversion_code(self):
+        # Type conversion code 
+        
+        self.text_segment += f"type_check:\n"
+        self.text_segment += f"li x25, 1\n"  # INT type code
+        self.text_segment += f"beq x23, x25, type_int\n"
+        self.text_segment += f"li x25, 2\n"  # FLOAT type code
+        self.text_segment += f"beq x23, x25, type_float\n"
+        self.text_segment += f"li x25, 3\n"  # CHAR type code
+        self.text_segment += f"beq x23, x25, type_char\n"
+        self.text_segment += f"li x25, 4\n"  # BOOL type code
+        self.text_segment += f"beq x23, x25, type_bool\n"
+        
+        self.text_segment += f"type_int:\n"
+        self.text_segment += f"li x24, 4\n"
+        
+        self.text_segment += f"jalr x0, x1, 0\n"  # Use ret to return to the caller
+        
+        self.text_segment += f"type_float:\n"
+        self.text_segment += f"li x24, 4\n"
+        self.text_segment += f"jalr x0, x1, 0\n"
+        
+        self.text_segment += f"type_char:\n"
+        self.text_segment += f"li x24, 1\n"
+        self.text_segment += f"jalr x0, x1, 0\n"
+        
+        self.text_segment += f"type_bool:\n"
+        self.text_segment += f"li x24, 1\n"
+        self.text_segment += f"jalr x0, x1, 0\n"
+    
+    
+    
     def generate_target_code(self, vm_code):
 
         preprocess = Preprocess()
@@ -1087,8 +1273,40 @@ class VM_Demo:
             elif (line[0] == Instructions.scan.value):
                 self.scan(line)
                 # pass
+            elif (line[0] == Instructions.alloc.value):
+                self.alloc(line)
+            elif (line[0] == Instructions.getindex.value):
+                self.getindex(line)
+            elif (line[0] == Instructions.store.value):
+                self.store(line)
 
-        self.text_segment = postprocess(self.text_segment)
+        #Adding the type to byte conversion:
+        # Set size based on type
+        # self.text_segment += f"type_int:\n"
+        # self.text_segment += f"li x24, 4\n"
+        # self.text_segment += f"j type_done\n"
+        
+        # self.text_segment += f"type_float:\n"
+        # self.text_segment += f"li x24, 4\n"
+        # self.text_segment += f"j type_done\n"
+        
+        # self.text_segment += f"type_char:\n"
+        # self.text_segment += f"li x24, 1\n"
+        # self.text_segment += f"j type_done\n"
+        
+        # self.text_segment += f"type_bool:\n"
+        # self.text_segment += f"li x24, 1\n"
+        # self.text_segment += f"j type_done\n"
+        
+        # self.text_segment += f"type_done:\n"
+        # # Calculate final address
+        # self.text_segment += f"mul x20, x20, x24\n"  # Multiply index by element size
+        # self.text_segment += f"add x20, x20, x21\n"  # Add base address
+        
+        self.generate_type_conversion_code()
+    
+        self.text_segment =  postprocess(self.text_segment)
+        
 
         sorted_list = sorted(
             self.data_segment_dict.items(), key=lambda x: x[1][2])

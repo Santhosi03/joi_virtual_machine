@@ -16,7 +16,7 @@ def preprocess_main_file(main_code, helper_codes):
     # Parse each helper file to identify functions and store their code
     for line in main_lines:
         tokens = line.split()
-        if tokens and tokens[0] == 'function':
+        if tokens and tokens[0] == 'function' and tokens[1]!='joi':
                 # Store previous function if it exists
                 # Start a new function
                 function_name = tokens[1]

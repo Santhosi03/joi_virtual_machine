@@ -35,7 +35,7 @@ class VM_Demo:
         # 8220 for later use
         # start from 8224
         self.pointer_segment=8216
-        self.heap_manager=HeapMemoryManager()
+        self.heap_manager=HeapMemoryManager(size=10000)
         self.pointer_count = 0
         self.data_size = {
             'INT': 4,
@@ -100,13 +100,15 @@ class VM_Demo:
         self.text_segment += f"sw x5, 0(x6)\n"
         
         # 10304 to 11327 (1024, heap)
+        ##Latest try: 10304 to 20303 (10000,heap)
         self.text_segment += f"li x5, 10304\n"
         self.text_segment += f"li x6, {self.heap}\n"
         self.text_segment += f"add x6, x8, x6\n"
         self.text_segment += f"sw x5, 0(x6)\n"
         
         # 11328 to 11839 (512, pointer_segment)
-        self.text_segment += f"li x5, 11328\n"
+        #Latest try: 20304 to 20815
+        self.text_segment += f"li x5, 20304\n"
         self.text_segment += f"li x6, {self.pointer_segment}\n"
         self.text_segment += f"add x6, x8, x6\n"
         self.text_segment += f"sw x5, 0(x6)\n"
@@ -1499,7 +1501,7 @@ class VM_Demo:
         preprocess = Preprocess()
         functions={}
         vm_code = preprocess.preprocess(vm_code,functions)
-        print("pppppppppppppppps",vm_code,"ppppppppppppppps")
+        # print("pppppppppppppppps",vm_code,"ppppppppppppppps")
         for line in vm_code.splitlines():
             # print(line)
             line = simple_split(line)

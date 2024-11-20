@@ -34,14 +34,14 @@ class Preprocess:
                         mod_vm_code += re.sub(r'lib .*', '', line).strip()
                         mod_vm_code = self.preprocess(lib_file.read(),functions) + mod_vm_code
                         
-                    print(mod_vm_code, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+                    print("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
                 except FileNotFoundError:
                     raise FileNotFoundError(f"Missing library: '{split_line[-1]}' not found in libraries directory")
 
             elif split_line[0] == 'function':
-                if split_line[1] =='joi':
+                if len(split_line) == 4 :
                     split_line += ['0'] * (5 - len(split_line))
-                    mod_vm_code += f'function {split_line[1]} 10 10 0\n'
+                    mod_vm_code += f'function {split_line[1]} 10 10 {split_line[3]}\n'
                 elif len(split_line) < 5:
                     # Add default values to handle missing elements
                     split_line += ['0'] * (5 - len(split_line))
@@ -93,8 +93,8 @@ class Preprocess:
                 mod_vm_code += re.sub(r'#', '__', line) + '\n'
 
             elif split_line[0] =="add" and len(split_line) < 2:
-                mod_vm_code+= "add INT"
+                mod_vm_code+= "add INT\n"
             else:
                 mod_vm_code += line + '\n'
-        print("------------modified---",mod_vm_code)
+        # print("------------modified---",mod_vm_code)
         return mod_vm_code

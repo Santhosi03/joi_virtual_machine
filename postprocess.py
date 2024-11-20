@@ -13,24 +13,64 @@ def get_ieee_rep(value, hex=None):
 
 
 def convert_rep(value):
+    """
+    More efficient conversion of large immediate values
+    
+    Args:
+        value (int): The immediate value to load
+    
+    Returns:
+        tuple: (upper_immediate, lower_immediate)
+    """
     value = int(value)
-    h = None
-
+    
+    # Handle negative numbers by converting to unsigned 32-bit representation
     if value < 0:
-        h = hex((1 << 32) + value)
-    else:
-        h = hex(value)
+        value = (1 << 32) + value
+    
+    # Split into upper and lower 12-bit parts
+    upper_imm = value >> 12  # Upper 20 bits
+    lower_imm = value & 0xFFF  # Lower 12 bits
+    
+    # Handle sign extension for negative lower immediate
+    if lower_imm > 0x7FF:  # If lower 12 bits represent a negative number
+        upper_imm += 1
+        lower_imm -= 4096
+    
+    return upper_imm, lower_imm
 
-    h = h.lstrip('0x')
+def optimize_li(reg, value):
+    """
+    Generate more efficient load immediate instructions
+    
+    Args:
+        reg (str): Register to load value into
+        value (int): Immediate value to load
+    
+    Returns:
+        str: Optimized assembly instructions
+    """
+    optimized_code = ""
+    
+    # Special case for small values that fit in 12 bits
+    if -2048 <= value < 2048:
+        return f"addi {reg}, x0, {value}\n"
+    
+    # Get upper and lower immediate values
+    upper_imm, lower_imm = convert_rep(value)
+    
+    # Load upper 20 bits
+    if upper_imm != 0:
+        optimized_code += f"lui {reg}, {upper_imm}\n"
+    
+    # Add lower 12 bits if non-zero
+    if lower_imm != 0:
+        # Use addi for both positive and negative lower immediates
+        optimized_code += f"addi {reg}, {reg}, {lower_imm}\n"
+    
+    return optimized_code
 
-    if (len(h) < 8):
-        h = '0'*(8-len(h))+h
 
-    upper = h[:5]
-    lower_val = int(h[5:], 16)
-    val = lower_val//3
-    extra = lower_val-3*val
-    return ('0x'+upper, val, extra)
 
 label_index=0
 def handle_multiplication(rd, rs1, rs2):
@@ -115,15 +155,9 @@ def postprocess(asm_code):
             mod_asm_code += f"blt {reg}, x0, {target}\n"
             
         elif op == 'li':
-            # Handle li conversion
             reg = parts[1].rstrip(',')
             value = int(parts[2])
-            upper, val, extra = convert_rep(value)
-            mod_asm_code += f"lui {reg}, {upper}\n"
-            mod_asm_code += f"addi {reg}, {reg}, {val}\n"
-            mod_asm_code += f"addi {reg}, {reg}, {val}\n"
-            mod_asm_code += f"addi {reg}, {reg}, {val}\n"
-            mod_asm_code += f"addi {reg}, {reg}, {extra}\n"
+            mod_asm_code += optimize_li(reg, value)
         
         elif op == 'lb':
             # Replace lb with lw and keep the rest of the line

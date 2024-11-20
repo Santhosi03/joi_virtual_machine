@@ -16,14 +16,19 @@ def preprocess_main_file(main_code, helper_codes):
     # Parse each helper file to identify functions and store their code
     for line in main_lines:
         tokens = line.split()
-        if tokens and tokens[0] == 'function' and tokens[1]!='joi':
+        # print(tokens)
+        if tokens and tokens[0] == 'function':
                 # Store previous function if it exists
                 # Start a new function
                 function_name = tokens[1]
+                # print(tokens)
+                if tokens[1]=='joi' and len(tokens) < 4:
+                    continue
                 func_dec[function_name]=[tokens[2],tokens[3]]
         if tokens and tokens[0]=='return':
                 if function_name:
                     if function_name in main_functions:
+                        print(main_functions)
                         raise ValueError(f"Multiple declarations of {function_name}")
                     main_functions[function_name] = True
                     
@@ -93,7 +98,7 @@ if __name__ == '__main__':
 
     # Process the main file to replace function declarations with helper code
     vm_code = preprocess_main_file(main_code, helper_codes)
-    print(":::::::::",vm_code)
+    # print(":::::::::",vm_code)
 
     # Generate the target assembly code
     asm_generator = VM_Demo()

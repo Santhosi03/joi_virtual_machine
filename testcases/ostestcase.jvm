@@ -1,0 +1,1474 @@
+lib os.jvm
+push constant 64 INT
+pop local 0 INT
+push constant 37 INT
+pop local 1 INT
+push constant 0 INT
+pop local 2 INT
+push constant 10 INT
+pop local 3 INT
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+push constant 0 INT
+pop local 6 INT
+push constant 0 INT
+pop local 7 INT
+
+
+function write_char_at 3 INT
+return 
+function save_screen 0 VOID
+return
+function write_int 1 INT
+return
+push constant 250004 INT
+pop local 13 INT
+pop local 14 INT
+pop local 15 INT
+push constant 1024 INT
+alloc 1024 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 24 INT
+push constant 60 INT
+push constant 60 INT
+push constant 24 INT
+push constant 24 INT
+push constant 0 INT
+push constant 24 INT
+push constant 0 INT
+push constant 108 INT
+push constant 108 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 108 INT
+push constant 108 INT
+push constant 254 INT
+push constant 108 INT
+push constant 254 INT
+push constant 108 INT
+push constant 108 INT
+push constant 0 INT
+push constant 48 INT
+push constant 124 INT
+push constant 192 INT
+push constant 120 INT
+push constant 12 INT
+push constant 248 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 198 INT
+push constant 204 INT
+push constant 24 INT
+push constant 48 INT
+push constant 102 INT
+push constant 198 INT
+push constant 0 INT
+push constant 56 INT
+push constant 108 INT
+push constant 56 INT
+push constant 118 INT
+push constant 220 INT
+push constant 204 INT
+push constant 118 INT
+push constant 0 INT
+push constant 96 INT
+push constant 96 INT
+push constant 192 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 24 INT
+push constant 48 INT
+push constant 96 INT
+push constant 96 INT
+push constant 96 INT
+push constant 48 INT
+push constant 24 INT
+push constant 0 INT
+push constant 96 INT
+push constant 48 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 48 INT
+push constant 96 INT
+push constant 0 INT
+push constant 0 INT
+push constant 102 INT
+push constant 60 INT
+push constant 0 INT
+push constant 60 INT
+push constant 102 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 252 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 96 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 252 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 6 INT
+push constant 12 INT
+push constant 24 INT
+push constant 48 INT
+push constant 96 INT
+push constant 192 INT
+push constant 128 INT
+push constant 0 INT
+push constant 124 INT
+push constant 198 INT
+push constant 206 INT
+push constant 222 INT
+push constant 246 INT
+push constant 230 INT
+push constant 124 INT
+push constant 0 INT
+push constant 48 INT
+push constant 112 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 252 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 12 INT
+push constant 56 INT
+push constant 96 INT
+push constant 204 INT
+push constant 252 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 12 INT
+push constant 56 INT
+push constant 12 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 28 INT
+push constant 60 INT
+push constant 108 INT
+push constant 204 INT
+push constant 254 INT
+push constant 12 INT
+push constant 30 INT
+push constant 0 INT
+push constant 252 INT
+push constant 192 INT
+push constant 248 INT
+push constant 12 INT
+push constant 12 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 56 INT
+push constant 96 INT
+push constant 192 INT
+push constant 248 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 252 INT
+push constant 204 INT
+push constant 12 INT
+push constant 24 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 124 INT
+push constant 12 INT
+push constant 24 INT
+push constant 112 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 96 INT
+push constant 24 INT
+push constant 48 INT
+push constant 96 INT
+push constant 192 INT
+push constant 96 INT
+push constant 48 INT
+push constant 24 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 252 INT
+push constant 0 INT
+push constant 0 INT
+push constant 252 INT
+push constant 0 INT
+push constant 0 INT
+push constant 96 INT
+push constant 48 INT
+push constant 24 INT
+push constant 12 INT
+push constant 24 INT
+push constant 48 INT
+push constant 96 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 12 INT
+push constant 24 INT
+push constant 48 INT
+push constant 0 INT
+push constant 48 INT
+push constant 0 INT
+push constant 124 INT
+push constant 198 INT
+push constant 222 INT
+push constant 222 INT
+push constant 222 INT
+push constant 192 INT
+push constant 120 INT
+push constant 0 INT
+push constant 48 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 252 INT
+push constant 204 INT
+push constant 204 INT
+push constant 0 INT
+push constant 252 INT
+push constant 102 INT
+push constant 102 INT
+push constant 124 INT
+push constant 102 INT
+push constant 102 INT
+push constant 252 INT
+push constant 0 INT
+push constant 60 INT
+push constant 102 INT
+push constant 192 INT
+push constant 192 INT
+push constant 192 INT
+push constant 102 INT
+push constant 60 INT
+push constant 0 INT
+push constant 248 INT
+push constant 108 INT
+push constant 102 INT
+push constant 102 INT
+push constant 102 INT
+push constant 108 INT
+push constant 248 INT
+push constant 0 INT
+push constant 254 INT
+push constant 98 INT
+push constant 104 INT
+push constant 120 INT
+push constant 104 INT
+push constant 98 INT
+push constant 254 INT
+push constant 0 INT
+push constant 254 INT
+push constant 98 INT
+push constant 104 INT
+push constant 120 INT
+push constant 104 INT
+push constant 96 INT
+push constant 240 INT
+push constant 0 INT
+push constant 60 INT
+push constant 102 INT
+push constant 192 INT
+push constant 192 INT
+push constant 206 INT
+push constant 102 INT
+push constant 62 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 252 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 0 INT
+push constant 120 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 120 INT
+push constant 0 INT
+push constant 30 INT
+push constant 12 INT
+push constant 12 INT
+push constant 12 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 230 INT
+push constant 102 INT
+push constant 108 INT
+push constant 120 INT
+push constant 108 INT
+push constant 102 INT
+push constant 230 INT
+push constant 0 INT
+push constant 240 INT
+push constant 96 INT
+push constant 96 INT
+push constant 96 INT
+push constant 98 INT
+push constant 102 INT
+push constant 254 INT
+push constant 0 INT
+push constant 198 INT
+push constant 238 INT
+push constant 254 INT
+push constant 254 INT
+push constant 214 INT
+push constant 198 INT
+push constant 198 INT
+push constant 0 INT
+push constant 198 INT
+push constant 230 INT
+push constant 246 INT
+push constant 222 INT
+push constant 206 INT
+push constant 198 INT
+push constant 198 INT
+push constant 0 INT
+push constant 56 INT
+push constant 108 INT
+push constant 198 INT
+push constant 198 INT
+push constant 198 INT
+push constant 108 INT
+push constant 56 INT
+push constant 0 INT
+push constant 252 INT
+push constant 102 INT
+push constant 102 INT
+push constant 124 INT
+push constant 96 INT
+push constant 96 INT
+push constant 240 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 220 INT
+push constant 120 INT
+push constant 28 INT
+push constant 0 INT
+push constant 252 INT
+push constant 102 INT
+push constant 102 INT
+push constant 124 INT
+push constant 108 INT
+push constant 102 INT
+push constant 230 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 224 INT
+push constant 112 INT
+push constant 28 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 252 INT
+push constant 180 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 120 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 252 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 48 INT
+push constant 0 INT
+push constant 198 INT
+push constant 198 INT
+push constant 198 INT
+push constant 214 INT
+push constant 254 INT
+push constant 238 INT
+push constant 198 INT
+push constant 0 INT
+push constant 198 INT
+push constant 198 INT
+push constant 108 INT
+push constant 56 INT
+push constant 56 INT
+push constant 108 INT
+push constant 198 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 48 INT
+push constant 48 INT
+push constant 120 INT
+push constant 0 INT
+push constant 254 INT
+push constant 198 INT
+push constant 140 INT
+push constant 24 INT
+push constant 50 INT
+push constant 102 INT
+push constant 254 INT
+push constant 0 INT
+push constant 120 INT
+push constant 96 INT
+push constant 96 INT
+push constant 96 INT
+push constant 96 INT
+push constant 96 INT
+push constant 120 INT
+push constant 0 INT
+push constant 192 INT
+push constant 96 INT
+push constant 48 INT
+push constant 24 INT
+push constant 12 INT
+push constant 6 INT
+push constant 2 INT
+push constant 0 INT
+push constant 120 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 120 INT
+push constant 0 INT
+push constant 16 INT
+push constant 56 INT
+push constant 108 INT
+push constant 198 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 48 INT
+push constant 48 INT
+push constant 24 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 120 INT
+push constant 12 INT
+push constant 124 INT
+push constant 204 INT
+push constant 118 INT
+push constant 0 INT
+push constant 224 INT
+push constant 96 INT
+push constant 96 INT
+push constant 124 INT
+push constant 102 INT
+push constant 102 INT
+push constant 220 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 192 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 28 INT
+push constant 12 INT
+push constant 12 INT
+push constant 124 INT
+push constant 204 INT
+push constant 204 INT
+push constant 118 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 252 INT
+push constant 192 INT
+push constant 120 INT
+push constant 0 INT
+push constant 56 INT
+push constant 108 INT
+push constant 96 INT
+push constant 240 INT
+push constant 96 INT
+push constant 96 INT
+push constant 240 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 118 INT
+push constant 204 INT
+push constant 204 INT
+push constant 124 INT
+push constant 12 INT
+push constant 248 INT
+push constant 224 INT
+push constant 96 INT
+push constant 108 INT
+push constant 118 INT
+push constant 102 INT
+push constant 102 INT
+push constant 230 INT
+push constant 0 INT
+push constant 48 INT
+push constant 0 INT
+push constant 112 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 120 INT
+push constant 0 INT
+push constant 12 INT
+push constant 0 INT
+push constant 12 INT
+push constant 12 INT
+push constant 12 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 224 INT
+push constant 96 INT
+push constant 102 INT
+push constant 108 INT
+push constant 120 INT
+push constant 108 INT
+push constant 230 INT
+push constant 0 INT
+push constant 112 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 48 INT
+push constant 120 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 204 INT
+push constant 254 INT
+push constant 254 INT
+push constant 214 INT
+push constant 198 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 248 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 120 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 220 INT
+push constant 102 INT
+push constant 102 INT
+push constant 124 INT
+push constant 96 INT
+push constant 240 INT
+push constant 0 INT
+push constant 0 INT
+push constant 118 INT
+push constant 204 INT
+push constant 204 INT
+push constant 124 INT
+push constant 12 INT
+push constant 30 INT
+push constant 0 INT
+push constant 0 INT
+push constant 220 INT
+push constant 118 INT
+push constant 102 INT
+push constant 96 INT
+push constant 240 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 124 INT
+push constant 192 INT
+push constant 120 INT
+push constant 12 INT
+push constant 248 INT
+push constant 0 INT
+push constant 16 INT
+push constant 48 INT
+push constant 124 INT
+push constant 48 INT
+push constant 48 INT
+push constant 52 INT
+push constant 24 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 118 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 120 INT
+push constant 48 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 198 INT
+push constant 214 INT
+push constant 254 INT
+push constant 254 INT
+push constant 108 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 198 INT
+push constant 108 INT
+push constant 56 INT
+push constant 108 INT
+push constant 198 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 204 INT
+push constant 204 INT
+push constant 204 INT
+push constant 124 INT
+push constant 12 INT
+push constant 248 INT
+push constant 0 INT
+push constant 0 INT
+push constant 252 INT
+push constant 152 INT
+push constant 48 INT
+push constant 100 INT
+push constant 252 INT
+push constant 0 INT
+push constant 28 INT
+push constant 48 INT
+push constant 48 INT
+push constant 224 INT
+push constant 48 INT
+push constant 48 INT
+push constant 28 INT
+push constant 0 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 0 INT
+push constant 24 INT
+push constant 24 INT
+push constant 24 INT
+push constant 0 INT
+push constant 224 INT
+push constant 48 INT
+push constant 48 INT
+push constant 28 INT
+push constant 48 INT
+push constant 48 INT
+push constant 224 INT
+push constant 0 INT
+push constant 118 INT
+push constant 220 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+push constant 0 INT
+pop local 16 ptr
+function clear_screen 0 VOID
+push local 2 INT
+push constant 0 INT
+eq
+JZ, end_if_0
+push local 13 INT
+push constant 4799 INT
+add
+pop local 14 INT
+push local 14 INT
+pop local 15 INT
+LABEL #L0
+push local 15 INT
+push local 13 INT
+gte
+JZ, goto end_#L0
+push constant 0 INT
+push local 15 INT
+call OS_mwrite 2 INT
+push local 15 INT
+push constant 1 INT
+sub
+pop local 15 INT
+push constant 1 INT
+add
+goto #L0
+LABEL end_#L0
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+goto end_if_0
+end_if_0:
+return
+function write_char 1 INT
+push argument 0 INT
+push local 2 INT
+push constant 0 INT
+eq
+JZ, end_if_1
+push local 23 INT
+push constant 10 INT
+eq
+JZ, elseif_0
+push constant 0 INT
+pop local 5 INT
+push local 4 INT
+push constant 8 INT
+add
+pop local 4 INT
+push local 4 INT
+push constant 8 INT
+push local 1 INT
+mul
+eq
+JZ, end_if_3
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+call clear_screen 0 VOID
+goto end_if_3
+end_if_3:
+goto end_if_2
+elseif_0:
+push local 23 INT
+push constant 95 INT
+eq
+JZ, elseif_1
+push local 5 INT
+push constant 1 INT
+add
+pop local 5 INT
+push constant 1 INT
+sub
+push local 5 INT
+push local 0 INT
+eq
+JZ, end_if_4
+push constant 0 INT
+pop local 5 INT
+push local 4 INT
+push constant 8 INT
+add
+pop local 4 INT
+push local 4 INT
+push constant 8 INT
+push local 1 INT
+mul
+gte
+JZ, end_if_5
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+goto end_if_5
+end_if_5:
+goto end_if_4
+end_if_4:
+goto end_if_2
+elseif_1:
+push local 23 INT
+push constant 13 INT
+eq
+JZ, elseif_2
+push constant 0 INT
+pop local 5 INT
+goto end_if_2
+elseif_2:
+push local 23 INT
+push constant 12 INT
+eq
+JZ, elseif_3
+push local 4 INT
+push constant 8 INT
+add
+pop local 4 INT
+push local 4 INT
+push constant 8 INT
+push local 1 INT
+mul
+gte
+JZ, end_if_6
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+goto end_if_6
+end_if_6:
+goto end_if_2
+elseif_3:
+push local 23 INT
+push constant 9 INT
+eq
+JZ, elseif_4
+push local 5 INT
+push constant 4 INT
+add
+pop local 5 INT
+push local 5 INT
+push local 0 INT
+gte
+JZ, end_if_7
+push constant 0 INT
+pop local 5 INT
+push local 4 INT
+push constant 8 INT
+add
+pop local 4 INT
+push local 4 INT
+push constant 8 INT
+push local 1 INT
+mul
+gte
+JZ, end_if_8
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+goto end_if_8
+end_if_8:
+goto end_if_7
+end_if_7:
+goto end_if_2
+elseif_4:
+push local 23 INT
+push constant 8 INT
+eq
+JZ, else_0
+push local 5 INT
+push constant 0 INT
+eq
+JZ, else_1
+push local 4 INT
+push constant 0 INT
+eq
+JZ, else_2
+goto end_if_10
+else_2:
+push local 0 INT
+push constant 1 INT
+sub
+pop local 5 INT
+push local 4 INT
+push constant 8 INT
+sub
+pop local 4 INT
+end_if_10:
+goto end_if_9
+else_1:
+push local 5 INT
+push constant 1 INT
+sub
+pop local 5 INT
+push constant 1 INT
+add
+end_if_9:
+push local 13 INT
+push local 0 INT
+push local 4 INT
+mul
+push constant 4 INT
+div
+add
+push local 5 INT
+push constant 4 INT
+div
+add
+pop local 14 INT
+push constant 0 INT
+pop local 15 INT
+LABEL #L1
+push local 15 INT
+push constant 8 INT
+lt
+JZ, goto end_#L1
+push local 14 INT
+push local 0 INT
+push constant 4 INT
+div
+push local 15 INT
+mul
+add
+call OS_mread 1 INT
+pop local 25 INT
+push local 25 INT
+push constant 256 INT
+div
+pop local 26 INT
+push local 5 INT
+push constant 4 INT
+mod
+pop local 27 INT
+push constant 3 INT
+pop local 28 INT
+LABEL #L2
+push local 28 INT
+push local 27 INT
+gt
+JZ, goto end_#L2
+push local 26 INT
+push constant 256 INT
+div
+pop local 26 INT
+push local 28 INT
+push constant 1 INT
+sub
+pop local 28 INT
+push constant 1 INT
+add
+goto #L2
+LABEL end_#L2
+push local 26 INT
+push local 14 INT
+push local 0 INT
+push constant 4 INT
+div
+push local 15 INT
+mul
+add
+call OS_mwrite 2 INT
+push local 15 INT
+push constant 1 INT
+add
+pop local 15 INT
+push constant 1 INT
+sub
+goto #L1
+LABEL end_#L1
+goto end_if_2
+else_0:
+push constant 8 INT
+alloc 8 INT
+pop local 29 ptr
+push constant 0 INT
+pop local 15 INT
+LABEL #L3
+push local 15 INT
+push constant 8 INT
+lt
+JZ, goto end_#L3
+push local 29 ptr
+push local 15 INT
+getindex
+push local 16 ptr
+push local 23 INT
+push constant 128 INT
+mul
+push local 15 INT
+add
+getindex
+access INT
+store INT
+push local 15 INT
+push constant 1 INT
+add
+pop local 15 INT
+push constant 1 INT
+sub
+goto #L3
+LABEL end_#L3
+push local 13 INT
+push local 0 INT
+push local 4 INT
+mul
+push constant 4 INT
+div
+add
+push local 5 INT
+push constant 4 INT
+div
+add
+pop local 14 INT
+push constant 0 INT
+pop local 15 INT
+LABEL #L4
+push local 15 INT
+push constant 8 INT
+lt
+JZ, goto end_#L4
+push local 14 INT
+push local 0 INT
+push constant 4 INT
+div
+push local 15 INT
+mul
+add
+call OS_mread 1 INT
+pop local 25 INT
+push local 29 ptr
+push local 15 INT
+getindex
+access INT
+pop local 26 INT
+push local 5 INT
+push constant 4 INT
+mod
+pop local 27 INT
+push constant 3 INT
+pop local 28 INT
+LABEL #L5
+push local 28 INT
+push local 27 INT
+gt
+JZ, goto end_#L5
+push local 26 INT
+push constant 256 INT
+mul
+pop local 26 INT
+push local 28 INT
+push constant 1 INT
+sub
+pop local 28 INT
+push constant 1 INT
+add
+goto #L5
+LABEL end_#L5
+push local 26 INT
+push local 25 INT
+add
+push local 14 INT
+push local 0 INT
+push constant 4 INT
+div
+push local 15 INT
+mul
+add
+call OS_mwrite 2 INT
+push local 15 INT
+push constant 1 INT
+add
+pop local 15 INT
+push constant 1 INT
+sub
+goto #L4
+LABEL end_#L4
+push local 5 INT
+push constant 1 INT
+add
+pop local 5 INT
+push constant 1 INT
+sub
+push local 5 INT
+push local 0 INT
+eq
+JZ, end_if_11
+push constant 0 INT
+pop local 5 INT
+push local 4 INT
+push constant 8 INT
+add
+pop local 4 INT
+goto end_if_11
+end_if_11:
+push local 4 INT
+push constant 8 INT
+push local 1 INT
+mul
+eq
+JZ, end_if_12
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+goto end_if_12
+end_if_12:
+end_if_2:
+goto end_if_1
+end_if_1:
+push constant 1 INT
+return
+function joi 0 INT
+push constant 72 INT
+call write_char 1 INT
+push constant 0 INT
+return
+halt
+

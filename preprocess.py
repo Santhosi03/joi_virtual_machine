@@ -39,16 +39,18 @@ class Preprocess:
                     raise FileNotFoundError(f"Missing library: '{split_line[-1]}' not found in libraries directory")
 
             elif split_line[0] == 'function':
-                if len(split_line) < 5:
+                if split_line[1] =='joi':
+                    mod_vm_code += f'function {split_line[1]} 10 10 0\n'
+                elif len(split_line) < 5:
                     # Add default values to handle missing elements
                     split_line += ['0'] * (5 - len(split_line))
 
-                if split_line[2] == '0' and split_line[3] == '0':
-                    mod_vm_code += f'function {split_line[1]} 10 10 {split_line[4]}\n'
-                elif split_line[2] == '0':
-                    mod_vm_code += f'function {split_line[1]} 10 {split_line[3]} {split_line[4]}\n'
-                elif split_line[3] == '0':
-                    mod_vm_code += f'function {split_line[1]} {split_line[2]} 10 {split_line[4]}\n'
+                    if split_line[2] == '0' and split_line[3] == '0':
+                        mod_vm_code += f'function {split_line[1]} 10 10 {split_line[4]}\n'
+                    elif split_line[2] == '0':
+                        mod_vm_code += f'function {split_line[1]} 10 {split_line[3]} {split_line[4]}\n'
+                    elif split_line[3] == '0':
+                        mod_vm_code += f'function {split_line[1]} {split_line[2]} 10 {split_line[4]}\n'
                 else:
                     mod_vm_code += line + '\n'
                     
@@ -89,6 +91,8 @@ class Preprocess:
             elif '#' in line:
                 mod_vm_code += re.sub(r'#', '__', line) + '\n'
 
+            elif split_line[0] =="add" and len(split_line) < 2:
+                mod_vm_code+= "add INT"
             else:
                 mod_vm_code += line + '\n'
         print("------------modified---",mod_vm_code)

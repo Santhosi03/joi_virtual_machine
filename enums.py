@@ -62,15 +62,15 @@ class Operators(enum.Enum):
     BitAnd = ['and']
     BitOr = ['or']
     BitXor = ['xor']
-    Mod = ['rem']
+    Rem = ['rem']
     Mul = ['mul']
     Div = ['div']
 
     Plus = '+'
     Minus = '-'
-    Mul = '*'
-    Div = '/'
-    Mod = '%'
+    # Mul = '*'
+    # Div = '/'
+    # Mod = '%'
 
     LeftShift = '<<'
     RightShift = '>>'

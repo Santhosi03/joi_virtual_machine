@@ -512,10 +512,13 @@ class VM_Demo:
             instruction = Operators.BitXor.value
         elif (operator == Instructions.Rem.value):
             instruction = Operators.Rem.value
+            print("Mod")
         elif (operator == Instructions.Mul.value):
             instruction = Operators.Mul.value
+            # print("mul")
         elif (operator == Instructions.Div.value):
             instruction = Operators.Div.value
+            print("Div")
 
         if (datatype == Datatypes.INT.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -1197,7 +1200,7 @@ class VM_Demo:
 
     def generate_type_conversion_code(self):
         # Type conversion code 
-        
+        self.text_segment += f"jal x30, __END__\n"
         self.text_segment += f"type_check:\n"
         self.text_segment += f"li x25, 1\n"  # INT type code
         self.text_segment += f"beq x23, x25, type_int\n"
@@ -1241,7 +1244,7 @@ class VM_Demo:
 
             if (line[0] == Instructions.Add.value or line[0] == Instructions.Sub.value or line[0] == Instructions.BitAnd.value or
                     line[0] == Instructions.BitOr.value or line[0] == Instructions.BitXor.value or line[0] == Instructions.LShift.value or
-                    line[0] == Instructions.RShift.value):
+                    line[0] == Instructions.RShift.value or line[0] == Instructions.Rem.value or line[0] == Instructions.Mul.value or line[0] == Instructions.Div.value):
                 self.Operator(line)
             elif (line[0] == Instructions.Eq.value or line[0] == Instructions.Lt.value or line[0] == Instructions.Ge.value):
                 self.Condtion_builtin(line)

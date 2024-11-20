@@ -63,6 +63,17 @@ class VM_Demo:
         self.has_return = False
         self.functions = {}  # Dictionary to store function names and their validity
 
+        self.class_definitions = {}  # Store class definitions
+        self.class_methods = {}      # Store methods for each class
+        self.class_sizes = {}        # Store object sizes for each class
+        self.class_member_offsets = {}  # Store member variable offsets
+        self.current_class_index = 0  # Track current class being defined
+
+        self.current_scope = []
+        self.current_context = None  # Can be 'class', 'private', 'public', 'method'
+
+        self.local_variable_offset = []
+
     def init_mem(self):
         # 8224 to 8735 (512, local)
         self.text_segment += f"li x5, 8224\n"
@@ -259,6 +270,259 @@ class VM_Demo:
         # Push value onto stack
         self.text_segment += f"sw x20, 0(x2)\n"
         self.text_segment += f"addi x2, x2, 4\n"
+
+
+    def begin_class(self, line):
+        """
+        Begin class definition
+        Syntax: class <class_number>
+        """
+        class_number = int(line[1])
+        self.current_class_index = class_number
+        
+        # Initialize class-related data structures
+        self.class_definitions[class_number] = {
+            'private_members': [],
+            'public_members': [],
+            'methods': {}
+        }
+        self.class_member_offsets[class_number] = {}
+        self.class_methods[class_number] = {}
+        
+        # Start tracking class scope
+        self.text_segment += f"# Begin class {class_number} definition\n"
+
+    def declare_member(self, line):
+        """
+        Declare class member variable
+        Syntax: declare local <offset> <type>
+        """
+        # Get current class being defined
+        class_number = self.current_class_index
+        offset = int(line[2])
+        datatype = line[3]
+        
+        # Track member in class definition
+        current_def = self.class_definitions[class_number]
+        
+        # Determine if private or public based on previous context (assumed to be tracked externally)
+        member_list = current_def['private_members'] if self.prev_operator == 'private' else current_def['public_members']
+        member_list.append((offset, datatype))
+        
+        # Calculate offset within the object
+        current_offset = 0
+        for prev_offset, prev_type in member_list[:-1]:
+            current_offset += self.data_size[prev_type]
+        
+        # Store the offset for this member
+        self.class_member_offsets[class_number][offset] = current_offset
+        
+        self.text_segment += f"# Declared member {offset} of type {datatype} at offset {current_offset}\n"
+
+    def method_begin(self, line):
+        """
+        Begin method definition for a class
+        Syntax: method <method_name> <num_args> <return_type>
+        """
+        class_number = self.current_class_index
+        method_name = line[1]
+        num_args = int(line[2])
+        return_type = line[3]
+        
+        # Store method information
+        self.class_methods[class_number][method_name] = {
+            'num_args': num_args,
+            'return_type': return_type
+        }
+        
+        # Generate a unique label for the method
+        method_label = f"class_{class_number}_method_{method_name}"
+        
+        self.text_segment += f"# Begin method {method_name} for class {class_number}\n"
+        self.text_segment += f"{method_label}:\n"
+
+    def create_object(self, line):
+        """
+        Create an object of a specific class
+        Syntax: createobject <class_number> <num_args>
+        """
+        class_number = int(line[1])
+        num_args = int(line[2])
+        
+        # Determine object size
+        object_size = 0
+        if f'C_{class_number}' not in self.class_sizes:
+            # Calculate object size based on member variables
+            class_def = self.class_definitions[class_number]
+            for _, datatype in class_def['private_members'] + class_def['public_members']:
+                object_size += self.data_size[datatype]
+            
+            # Store the calculated size with C_ prefix
+            self.class_sizes[f'C_{class_number}'] = object_size
+        else:
+            object_size = self.class_sizes[f'C_{class_number}']
+        
+        # Allocate memory for the object
+        self.text_segment += f"# Create object of class {class_number}\n"
+        # Generate assembly for allocation (similar to existing alloc method)
+        # Note: This assumes the alloc method can handle a custom type
+        base_address = self.heap_manager.first_fit(object_size)
+        if base_address is None:
+            raise Exception("Out of memory")
+        
+        # Store pointer information similar to alloc method
+        self.text_segment += f"# Storing object pointer information\n"
+        self.text_segment += f"li x5, {self.pointer_segment}\n"
+        self.text_segment += f"add x5, x5, x8\n"
+        self.text_segment += f"lw x6, 0(x5)\n"  # Current pointer segment position
+        
+        # Store triplet (base_address, size, datatype)
+        type_code = self.type_dict.get(f'C_{class_number}', 5)  # Custom type code for classes
+        
+        self.text_segment += f"li x7, {base_address}\n"
+        self.text_segment += f"sw x7, 0(x6)\n"
+        self.text_segment += f"li x7, {object_size}\n"
+        self.text_segment += f"sw x7, 4(x6)\n"
+        self.text_segment += f"li x7, {type_code}\n"
+        self.text_segment += f"sw x7, 8(x6)\n"
+        
+        # Update pointer segment position
+        self.text_segment += f"addi x6, x6, 12\n"
+        self.text_segment += f"sw x6, 0(x5)\n"
+        
+        # Push triplet to stack
+        self.text_segment += f"# Pushing object pointer triplet to stack\n"
+        self.text_segment += f"li x5, {base_address}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+        self.text_segment += f"li x5, {object_size}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+        self.text_segment += f"li x5, {type_code}\n"
+        self.text_segment += f"sw x5, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+
+    def method_call(self, line):
+        """
+        Call a method on an object
+        Syntax: mcall <method_name> <num_args> <return_type>
+        """
+        method_name = line[1]
+        num_args = int(line[2])
+        return_type = line[3]
+        
+        # Pop object pointer from stack
+        self.text_segment += f"# Method call for {method_name}\n"
+        self.text_segment += f"addi x2, x2, -12\n"
+        self.text_segment += f"lw x20, 0(x2)\n"  # Base address of object
+        self.text_segment += f"lw x21, 4(x2)\n"  # Object size
+        self.text_segment += f"lw x22, 8(x2)\n"  # Object type code
+        
+        # Verify method exists for this object's class
+        # Note: This would ideally be a more complex type check
+        found_method = False
+        for class_number, methods in self.class_methods.items():
+            if method_name in methods:
+                method_info = methods[method_name]
+                if method_info['num_args'] == num_args and method_info['return_type'] == return_type:
+                    # Generate method call
+                    method_label = f"class_{class_number}_method_{method_name}"
+                    self.text_segment += f"jal x1, {method_label}\n"
+                    found_method = True
+                    break
+        
+        if not found_method:
+            raise Exception(f"Method {method_name} not found or type mismatch")
+
+
+    def getattribute(self, line):
+        """
+        getattribute <class_number> <attribute_number> <type>
+        Retrieves the value of the specified attribute from an object
+        Uses x20-x24 for temporary storage to avoid conflicts
+
+        Even though class number can be calculated programmatically, we cant really use the assembly value
+        here in python to get the offset(the offsets arent there in assembly) so classnumber has to be included
+        """
+        class_number = int(line[1])
+        attribute_number = int(line[2])
+        attribute_type = line[3]
+        
+        self.text_segment += f"# Get attribute {attribute_number} of type {attribute_type}\n"
+        
+        # Pop object pointer triplet (using x20-x22 for storage)
+        self.text_segment += f"addi x2, x2, -12\n"
+        self.text_segment += f"lw x20, 0(x2)\n"  # Base address in x20
+        self.text_segment += f"lw x21, 4(x2)\n"  # Size in x21
+        self.text_segment += f"lw x22, 8(x2)\n"  # Type code in x22
+        
+        
+        # Get the class number from the type code
+        self.text_segment += f"addi x22, x22, -5\n"  # Convert type code to class number
+        
+        # Calculate attribute offset based on class member offsets
+        offset = self.class_member_offsets[class_number][attribute_number]
+        self.text_segment += f"# Calculate attribute offset\n"
+        self.text_segment += f"li x23, {offset}\n"
+        self.text_segment += f"add x24, x20, x23\n"  # x24 now has the address of the attribute
+        
+        # Load the attribute value based on its type
+        self.text_segment += f"# Load attribute value based on type\n"
+        if attribute_type == 'INT' or attribute_type == 'PTR':
+            self.text_segment += f"lw x20, 0(x24)\n"
+        elif attribute_type == 'FLOAT':
+            self.text_segment += f"flw f0, 0(x24)\n"
+            self.text_segment += f"fmv.x.w x20, f0\n"
+        elif attribute_type == 'CHAR' or attribute_type == 'BOOL':
+            self.text_segment += f"lb x20, 0(x24)\n"
+        
+        # Push the loaded value onto the stack
+        self.text_segment += f"# Push attribute value to stack\n"
+        self.text_segment += f"sw x20, 0(x2)\n"
+        self.text_segment += f"addi x2, x2, 4\n"
+        
+    def setattribute(self, line):
+        """
+        setattribute <class_number> <attribute_number> <type>
+        Sets the value of the specified attribute in an object
+        Uses x20-x24 for temporary storage to avoid conflicts
+        """
+        class_number = int(line[1])
+        attribute_number = int(line[2])
+        attribute_type = line[3]
+        
+        self.text_segment += f"# Set attribute {attribute_number} of type {attribute_type}\n"
+        
+        # Pop value to be set
+        self.text_segment += f"addi x2, x2, -4\n"
+        self.text_segment += f"lw x20, 0(x2)\n"  # Value to set in x20
+        
+        # Pop object pointer triplet (using x21-x23 for storage)
+        self.text_segment += f"addi x2, x2, -12\n"
+        self.text_segment += f"lw x21, 0(x2)\n"  # Base address in x21
+        self.text_segment += f"lw x22, 4(x2)\n"  # Size in x22
+        self.text_segment += f"lw x23, 8(x2)\n"  # Type code in x23
+        
+        
+        # Get the class number from the type code
+        self.text_segment += f"addi x23, x23, -5\n"  # Convert type code to class number
+        
+        # Calculate attribute offset based on class member offsets
+        offset = self.class_member_offsets[class_number][attribute_number]
+        self.text_segment += f"# Calculate attribute offset\n"
+        self.text_segment += f"li x24, {offset}\n"
+        self.text_segment += f"add x24, x21, x24\n"  # x24 now has the address of the attribute
+        
+        # Store the value based on its type
+        self.text_segment += f"# Store attribute value based on type\n"
+        if attribute_type == 'INT' or attribute_type == 'PTR':
+            self.text_segment += f"sw x20, 0(x24)\n"
+        elif attribute_type == 'FLOAT':
+            self.text_segment += f"fmv.s.x f0, x20\n"
+            self.text_segment += f"fsw f0, 0(x24)\n"
+        elif attribute_type == 'CHAR' or attribute_type == 'BOOL':
+            self.text_segment += f"sb x20, 0(x24)\n"
+
 
     def push(self, line):
         """
@@ -1172,7 +1436,7 @@ class VM_Demo:
         self.text_segment += f"li x6, {self.arg}\n"
         self.text_segment += f"sw x7, 0(x6)\n"
 
-        self.text_segment += f"jalr x28, x5, 0\n"
+        self.text_segment += f"jalr x0, x1, 0\n"
 
         # self.text_segment += '\n'
 
@@ -1283,6 +1547,54 @@ class VM_Demo:
                 self.getindex(line)
             elif (line[0] == Instructions.store.value):
                 self.store(line)
+
+            elif line[0] == 'mcall':
+                self.method_call(line)
+            
+            elif line[0] == 'end':
+                # Handle scope ending
+                if self.current_scope:
+                    # Pop the last context from scope
+                    popped_context = self.current_scope.pop()
+                    
+                    # Reset current context based on remaining scope
+                    if self.current_scope:
+                        self.current_context = self.current_scope[-1]
+                    else:
+                        self.current_context = None
+            elif line[0] == 'createobject':
+                self.create_object(line)
+
+            elif line[0] == 'class':
+                self.begin_class(line)
+                self.current_context = 'class'
+            
+            elif line[0] == 'begin':
+                if len(self.current_scope) == 0 and self.current_context == 'class':
+                    self.current_scope.append('class')
+                elif self.current_context in ['class', 'public', 'private']:
+                    # Push current context to scope
+                    self.current_scope.append(self.current_context)
+            
+            elif line[0] == 'private':
+                self.current_context = 'private'
+            
+            elif line[0] == 'public':
+                self.current_context = 'public'
+            
+            elif line[0] == 'declare':
+                if self.current_context in ['private', 'public']:
+                    self.declare_member(line)
+            
+            elif line[0] == 'method':
+                self.method_begin(line)
+                self.current_context = 'method'
+
+            elif line[0] == 'getattribute':
+                self.getattribute(line)
+            
+            elif line[0] =='setattribute':
+                self.setattribute(line)
 
         #Adding the type to byte conversion:
         # Set size based on type

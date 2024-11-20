@@ -1,0 +1,33 @@
+class 0
+begin
+private
+begin
+declare local 0 INT
+declare local 1 CHAR
+declare local 2 FLOAT
+end
+public
+begin
+method printnum 1 INT
+push argument 0 INT
+print INT
+push constant 1 INT
+return
+end
+end
+
+function joi
+createobject 0 0
+pop local 0 PTR
+push local 0 PTR
+getattribute 0 0 INT
+print INT
+push local 0 PTR
+push constant 1420 INT
+mcall printnum 1 INT
+pop temp 0 INT
+push local 0 PTR
+push constant 2014 INT
+setattribute 0 1 INT
+push constant 0 INT
+return 

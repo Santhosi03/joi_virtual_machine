@@ -1,0 +1,23 @@
+function OS_mread 1 INT
+push argument 0 INT //Base
+push constant 1 INT //Size
+push constant 1 INT //Type
+pop local 0 PTR 
+push local 0 PTR
+push constant 0 INT //Index
+getindex
+access INT
+return
+
+function OS_mwrite 2 INT
+push argument 1 INT //Base Address
+push constant 1 INT //Size
+push constant 1 INT //Type: integer
+pop local 0 PTR
+push local 0 PTR
+push constant 0 INT //Index
+getindex
+push argument 0 INT 
+store INT
+push constant 0 INT
+return

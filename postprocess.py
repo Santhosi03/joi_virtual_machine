@@ -124,6 +124,10 @@ def postprocess(asm_code):
             mod_asm_code += f"addi {reg}, {reg}, {val}\n"
             mod_asm_code += f"addi {reg}, {reg}, {val}\n"
             mod_asm_code += f"addi {reg}, {reg}, {extra}\n"
+        
+        elif op == 'lb':
+            # Replace lb with lw and keep the rest of the line
+            mod_asm_code += line.replace('lb', 'lw', 1) + "\n"
             
         elif op == 'fli':
             # Handle floating point immediate

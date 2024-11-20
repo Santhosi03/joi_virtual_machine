@@ -40,6 +40,7 @@ class Preprocess:
 
             elif split_line[0] == 'function':
                 if split_line[1] =='joi':
+                    split_line += ['0'] * (5 - len(split_line))
                     mod_vm_code += f'function {split_line[1]} 10 10 0\n'
                 elif len(split_line) < 5:
                     # Add default values to handle missing elements

@@ -1,0 +1,18 @@
+class MyName{
+private:
+float k;
+public: 
+int i=3;
+int j;
+int printnum(int num){
+printf("%d", num);
+return 1;
+}
+};
+int joi(){
+object a = new MyName();
+printf("%d", a->i);
+a->printnum(1420);
+a->j = 2014
+return 0;
+}

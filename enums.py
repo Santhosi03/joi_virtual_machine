@@ -27,11 +27,14 @@ class Instructions(enum.Enum):
 
     Add = 'add'
     Sub = 'sub'
+    Mul = 'mul'
+    Div = 'div'
     LShift = 'lshift'
     RShift = 'rshift'
     BitAnd = 'and'
     BitOr = 'or'
     BitXor = 'xor'
+    Rem = 'rem'
 
 
 class Segment(enum.Enum):
@@ -59,6 +62,9 @@ class Operators(enum.Enum):
     BitAnd = ['and']
     BitOr = ['or']
     BitXor = ['xor']
+    Mod = ['rem']
+    Mul = ['mul']
+    Div = ['div']
 
     Plus = '+'
     Minus = '-'

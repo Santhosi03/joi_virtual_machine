@@ -356,12 +356,7 @@ class VM_Demo:
                 self.text_segment += f"add x5, x5, x8\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
 
-                self.text_segment += f"addi x5, x5, {(index*4
-                
-                
-                
-                
-                +4)}\n"
+                self.text_segment += f"addi x5, x5, {(index*4+4)}\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
                 self.text_segment += f"sw x5, 0(x2)\n"
                 self.text_segment += f"addi x2, x2, 4\n"
@@ -515,6 +510,12 @@ class VM_Demo:
             instruction = Operators.BitOr.value
         elif (operator == Instructions.BitXor.value):
             instruction = Operators.BitXor.value
+        elif (operator == Instructions.Rem.value):
+            instruction = Operators.Rem.value
+        elif (operator == Instructions.Mul.value):
+            instruction = Operators.Mul.value
+        elif (operator == Instructions.Div.value):
+            instruction = Operators.Div.value
 
         if (datatype == Datatypes.INT.value):
             self.text_segment += f"addi x2, x2, -4\n"

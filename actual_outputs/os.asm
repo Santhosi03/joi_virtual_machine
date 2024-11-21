@@ -14,6 +14,12 @@ lui x5,2
 addi x5,x5,12
 sw x2,0(x5)
 addi x2,x2,60
+# Access value at address
+addi x2,x2,-4
+lw x21,0(x2)
+lw x20,0(x21)
+sw x20,0(x2)
+addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
 lui x6,2
@@ -5210,6 +5216,12 @@ jal x1,__type_check
         add x20,x20,x21
 sw x20,0(x2)
 addi x2,x2,4
+# Access value at address
+addi x2,x2,-4
+lw x21,0(x2)
+lw x20,0(x21)
+sw x20,0(x2)
+addi x2,x2,4
 # Store value at address
 addi x2,x2,-4
 lw x20,0(x2)
@@ -5521,6 +5533,12 @@ jal x1,__type_check
             __mul_12_done:
             add x20,x26,x0   # Move result to destination
         add x20,x20,x21
+sw x20,0(x2)
+addi x2,x2,4
+# Access value at address
+addi x2,x2,-4
+lw x21,0(x2)
+lw x20,0(x21)
 sw x20,0(x2)
 addi x2,x2,4
 addi x2,x2,-4

@@ -72,7 +72,8 @@ class VM_Demo:
         self.current_scope = []
         self.current_context = None  # Can be 'class', 'private', 'public', 'method'
 
-        self.local_variable_offset = []
+        self.lv_ofst_stack = []
+        self.lv_ofst_dict = {}
 
     def init_mem(self):
         # 8224 to 8735 (512, local)
@@ -537,6 +538,7 @@ class VM_Demo:
         self.prev_push_segment = segment
         datatype = line[-1]
         index = 0
+        offset = 0
         self.prev_push_datatype = datatype
 
         if (segment != Segment.constant.value):
@@ -610,19 +612,26 @@ class VM_Demo:
             pointer = None
             if (segment == Segment.local.value):
                 pointer = self.lcl
+                if index in self.lv_ofst_dict:
+                    offset = self.lv_ofst_dict[index]
+                if index + 1 not in self.lv_ofst_dict:
+                    next_offset = offset + self.data_size[datatype]
+                    self.lv_ofst_dict[index + 1] = next_offset
             elif (segment == Segment.temp.value):
                 pointer = self.tmp
+                offset = index * 4
             elif (segment == Segment.argument.value):
                 pointer = self.arg
-
+                offset = index*4
+            print(f"{pointer} + {offset} at indexL: {index}")
             if (datatype == Datatypes.INT.value):
                 # self.text_segment += f"lw x5, {-(pointer)}(x8)\n"
 
                 self.text_segment += f"li x5, {(pointer)}\n"
                 self.text_segment += f"add x5, x5, x8\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
-
-                self.text_segment += f"addi x5, x5, {(index*4+4)}\n"
+                
+                self.text_segment += f"addi x5, x5, {(offset+4)}\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
                 self.text_segment += f"sw x5, 0(x2)\n"
                 self.text_segment += f"addi x2, x2, 4\n"
@@ -632,7 +641,7 @@ class VM_Demo:
                 self.text_segment += f"add x5, x5, x8\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
 
-                self.text_segment += f"addi x5, x5, {(index*4+4)}\n"
+                self.text_segment += f"addi x5, x5, {(offset+4)}\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
                 self.text_segment += f"sw x5, 0(x2)\n"
                 self.text_segment += f"addi x2, x2, 4\n"
@@ -642,11 +651,23 @@ class VM_Demo:
                 self.text_segment += f"add x5, x5, x8\n"
                 self.text_segment += f"lw x5, 0(x5)\n"
 
-                self.text_segment += f"addi x5, x5, {(int(index)*4+4)}\n"
+                self.text_segment += f"addi x5, x5, {(offset+4)}\n"
                 self.text_segment += f"flw f3, 0(x5)\n"
                 self.text_segment += f"fsw f3, 0(x2)\n"
                 self.text_segment += f"addi x2, x2, 4\n"
-
+            elif (datatype ==Datatypes.PTR.value):
+                for i in range(3):
+                    self.text_segment += f"li x5, {pointer}\n"
+                    self.text_segment += f"add x5, x5, x8\n"
+                    self.text_segment += f"lw x5, 0(x5)\n"
+                    
+                    # Load each integer from consecutive offsets
+                    self.text_segment += f"addi x5, x5, {(offset +4+ i*4)}\n"
+                    self.text_segment += f"lw x5, 0(x5)\n"
+                    
+                    # Store on stack
+                    self.text_segment += f"sw x5, 0(x2)\n"
+                    self.text_segment += f"addi x2, x2, 4\n"
             # self.text_segment += "\n"
 
         elif (segment == Segment.constant.value):
@@ -689,14 +710,21 @@ class VM_Demo:
         segment = line[1]
         datatype = line[-1]
         index = int(line[2])
-
+        offset = 0
         pointer = None
         if (segment == Segment.local.value):
             pointer = self.lcl
+            if index in self.lv_ofst_dict:
+                    offset = self.lv_ofst_dict[index]
+            if index + 1 not in self.lv_ofst_dict:
+                next_offset = offset + self.data_size[datatype]
+                self.lv_ofst_dict[index + 1] = next_offset
         elif (segment == Segment.temp.value):
             pointer = self.tmp
+            offset = index*4
         elif (segment == Segment.argument.value):
             pointer = self.arg
+            offset = index*4
 
 
         if (datatype == Datatypes.INT.value):
@@ -714,7 +742,7 @@ class VM_Demo:
             self.text_segment += f"add x6, x6, x8\n"
             self.text_segment += f"lw x6, 0(x6)\n"
 
-            self.text_segment += f"addi x6, x6, {(index*4+4)}\n"
+            self.text_segment += f"addi x6, x6, {(offset+4)}\n"
             self.text_segment += f"sw x5, 0(x6)\n"
         elif (datatype == Datatypes.CHAR.value or datatype == Datatypes.BOOL.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -731,7 +759,7 @@ class VM_Demo:
             self.text_segment += f"add x6, x6, x8\n"
             self.text_segment += f"lw x6, 0(x6)\n"
 
-            self.text_segment += f"addi x6, x6, {(index*4+4)}\n"
+            self.text_segment += f"addi x6, x6, {(offset+4)}\n"
             self.text_segment += f"sw x5, 0(x6)\n"
         elif (datatype == Datatypes.FLOAT.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -748,9 +776,22 @@ class VM_Demo:
             self.text_segment += f"add x6, x6, x8\n"
             self.text_segment += f"lw x6, 0(x6)\n"
 
-            self.text_segment += f"addi x6, x6, {(index*4+4)}\n"
+            self.text_segment += f"addi x6, x6, {(offset+4)}\n"
             self.text_segment += f"fsw f3, 0(x6)\n"
-
+        elif (datatype == Datatypes.PTR.value):
+             # Pop 3 consecutive integers for pointer in reverse order
+            for i in range(2, -1, -1):
+                self.text_segment += f"addi x2, x2, -4\n"
+                self.text_segment += f"lw x5, 0(x2)\n"
+                
+                # Load local variable base address
+                self.text_segment += f"li x6, {pointer}\n"
+                self.text_segment += f"add x6, x6, x8\n"
+                self.text_segment += f"lw x6, 0(x6)\n"
+                
+                # Store to consecutive offsets
+                self.text_segment += f"addi x6, x6, {(offset + 4 + i*4)}\n"
+                self.text_segment += f"sw x5, 0(x6)\n"
         self.prev_push_datatype = None
         # self.text_segment += '\n'
 
@@ -778,13 +819,13 @@ class VM_Demo:
             instruction = Operators.BitXor.value
         elif (operator == Instructions.Rem.value):
             instruction = Operators.Rem.value
-            print("Mod")
+            # print("Mod")
         elif (operator == Instructions.Mul.value):
             instruction = Operators.Mul.value
             # print("mul")
         elif (operator == Instructions.Div.value):
             instruction = Operators.Div.value
-            print("Div")
+            # print("Div")
 
         if (datatype == Datatypes.INT.value):
             self.text_segment += f"addi x2, x2, -4\n"
@@ -845,7 +886,7 @@ class VM_Demo:
             condition = Operators.Lt
             branch = Operators.Lt.value
         elif (condition == Instructions.Ge.value):
-            print("hi")
+            # print("hi")
             condition = Operators.Ge
             branch = Operators.Ge.value
 
@@ -1345,6 +1386,10 @@ class VM_Demo:
         self.text_segment += f"addi x2, x2, 4\n"
 
         self.text_segment += f"jal x1, {func_name}\n"
+        
+        
+        self.lv_ofst_stack.append(self.lv_ofst_dict.copy())
+        self.lv_ofst_dict = {}
 
         # self.text_segment += '\n'
 
@@ -1441,6 +1486,11 @@ class VM_Demo:
 
         self.text_segment += f"jalr x0, x1, 0\n"
 
+
+        if self.lv_ofst_stack:
+            self.lv_ofst_dict = self.lv_ofst_stack.pop()
+        else:
+            self.lv_ofst_stack = {}
         # self.text_segment += '\n'
 
     def scan(self, line):
@@ -1550,11 +1600,13 @@ class VM_Demo:
                 self.getindex(line)
             elif (line[0] == Instructions.store.value):
                 self.store(line)
+            elif (line[0] == Instructions.access.value):
+                self.access(line)
 
-            elif line[0] == 'mcall':
+            elif line[0] == Instructions.mcall.value:
                 self.method_call(line)
             
-            elif line[0] == 'end':
+            elif line[0] == Instructions.end.value:
                 # Handle scope ending
                 if self.current_scope:
                     # Pop the last context from scope
@@ -1565,39 +1617,42 @@ class VM_Demo:
                         self.current_context = self.current_scope[-1]
                     else:
                         self.current_context = None
-            elif line[0] == 'createobject':
+            elif line[0] == Instructions.createobject.value:
                 self.create_object(line)
 
-            elif line[0] == 'class':
+            elif line[0] == Instructions.cls.value:
                 self.begin_class(line)
                 self.current_context = 'class'
             
-            elif line[0] == 'begin':
+            elif line[0] == Instructions.begin.value:
                 if len(self.current_scope) == 0 and self.current_context == 'class':
                     self.current_scope.append('class')
                 elif self.current_context in ['class', 'public', 'private']:
                     # Push current context to scope
                     self.current_scope.append(self.current_context)
             
-            elif line[0] == 'private':
+            elif line[0] == Instructions.pvt.value:
                 self.current_context = 'private'
             
-            elif line[0] == 'public':
+            elif line[0] == Instructions.pbc.value:
                 self.current_context = 'public'
             
-            elif line[0] == 'declare':
+            elif line[0] == Instructions.declare.value:
                 if self.current_context in ['private', 'public']:
                     self.declare_member(line)
             
-            elif line[0] == 'method':
+            elif line[0] == Instructions.mtd.value:
                 self.method_begin(line)
                 self.current_context = 'method'
 
-            elif line[0] == 'getattribute':
+            elif line[0] == Instructions.getatr.value:
                 self.getattribute(line)
             
-            elif line[0] =='setattribute':
+            elif line[0] == Instructions.setatr.value:
                 self.setattribute(line)
+
+            else:
+                print("LABEL", line)
 
         #Adding the type to byte conversion:
         # Set size based on type

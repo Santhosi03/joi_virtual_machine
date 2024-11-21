@@ -35,7 +35,7 @@ class Preprocess:
                 dummy_label = f"{original_label}_no"
 
                 mod_vm_code +=f"if-goto {dummy_label}\n" + f"goto {original_label}\n" + f"label {dummy_label}\n"
-            if split_line[0] == 'lib':
+            elif split_line[0] == 'lib':
                 script_dir = os.path.dirname(__file__)
                 lib_path = 'libraries/' + split_line[-1]
                 lib_abs_path = os.path.join(script_dir, lib_path)

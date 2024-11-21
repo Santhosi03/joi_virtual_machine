@@ -34,7 +34,7 @@ class Instructions(enum.Enum):
     BitAnd = 'and'
     BitOr = 'or'
     BitXor = 'xor'
-    Rem = 'rem'
+    Rem = 'mod'
 
 
 class Segment(enum.Enum):

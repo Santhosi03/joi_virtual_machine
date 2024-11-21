@@ -3468,6 +3468,12 @@ addi x2,x2,4
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_0_no
+jal x30,__end_if_0
+__end_if_0_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -3511,6 +3517,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,64
 sw x5,0(x6)
+__L0:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -3527,6 +3534,12 @@ addi x5,x5,56
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__#end_L0_no
+jal x30,__#end_L0
+__#end_L0_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3576,6 +3589,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -3593,6 +3613,7 @@ add x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 jal x30,__L0
+__end_L0:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3677,6 +3698,12 @@ addi x2,x2,4
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_1_no
+jal x30,__end_if_1
+__end_if_1_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -3688,6 +3715,12 @@ addi x2,x2,4
 addi x5,x0,10
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__elseif_0_no
+jal x30,__elseif_0
+__elseif_0_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3744,6 +3777,37 @@ addi x5,x5,8
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_0_loop:
+            beq x29,x0,__mul_0_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_0_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_0_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_0_loop
+            
+            __mul_0_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_3_no
+jal x30,__end_if_3
+__end_if_3_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3807,6 +3871,12 @@ addi x2,x2,4
 addi x5,x0,95
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__elseif_1_no
+jal x30,__elseif_1
+__elseif_1_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -3836,6 +3906,13 @@ sw x5,0(x6)
 addi x5,x0,1
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -3852,6 +3929,12 @@ addi x5,x5,4
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_4_no
+jal x30,__end_if_4
+__end_if_4_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3908,6 +3991,37 @@ addi x5,x5,8
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_1_loop:
+            beq x29,x0,__mul_1_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_1_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_1_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_1_loop
+            
+            __mul_1_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_5_no
+jal x30,__end_if_5
+__end_if_5_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3944,6 +4058,12 @@ addi x2,x2,4
 addi x5,x0,13
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__elseif_2_no
+jal x30,__elseif_2
+__elseif_2_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -3967,6 +4087,12 @@ addi x2,x2,4
 addi x5,x0,12
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__elseif_3_no
+jal x30,__elseif_3
+__elseif_3_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4012,6 +4138,37 @@ addi x5,x5,8
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_2_loop:
+            beq x29,x0,__mul_2_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_2_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_2_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_2_loop
+            
+            __mul_2_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_6_no
+jal x30,__end_if_6
+__end_if_6_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -4047,6 +4204,12 @@ addi x2,x2,4
 addi x5,x0,9
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__elseif_4_no
+jal x30,__elseif_4
+__elseif_4_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4089,6 +4252,12 @@ addi x5,x5,4
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_7_no
+jal x30,__end_if_7
+__end_if_7_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -4145,6 +4314,37 @@ addi x5,x5,8
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_3_loop:
+            beq x29,x0,__mul_3_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_3_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_3_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_3_loop
+            
+            __mul_3_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_8_no
+jal x30,__end_if_8
+__end_if_8_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -4181,6 +4381,12 @@ addi x2,x2,4
 addi x5,x0,8
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__else_0_no
+jal x30,__else_0
+__else_0_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4192,6 +4398,12 @@ addi x2,x2,4
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__else_1_no
+jal x30,__else_1
+__else_1_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4203,6 +4415,12 @@ addi x2,x2,4
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__else_2_no
+jal x30,__else_2
+__else_2_no:
 jal x30,__end_if_10
 lui x5,2
 addi x5,x5,4
@@ -4213,6 +4431,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,1
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4236,6 +4461,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -4252,6 +4484,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,1
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4296,7 +4535,39 @@ addi x5,x5,20
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_4_loop:
+            beq x29,x0,__mul_4_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_4_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_4_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_4_loop
+            
+            __mul_4_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
 addi x5,x0,4
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4315,6 +4586,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,4
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4343,6 +4621,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,64
 sw x5,0(x6)
+__L1:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4354,6 +4633,12 @@ addi x2,x2,4
 addi x5,x0,8
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_#L1_no
+jal x30,__end_#L1
+__end_#L1_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4373,6 +4658,13 @@ addi x2,x2,4
 addi x5,x0,4
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4380,6 +4672,31 @@ lw x5,0(x5)
 addi x5,x5,64
 lw x5,0(x5)
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_5_loop:
+            beq x29,x0,__mul_5_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_5_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_5_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_5_loop
+            
+            __mul_5_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
@@ -4434,6 +4751,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -4449,6 +4773,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,4
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+rem x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4470,6 +4801,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,116
 sw x5,0(x6)
+__L2:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4486,6 +4818,12 @@ addi x5,x5,112
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_#L2_no
+jal x30,__end_#L2
+__end_#L2_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4495,6 +4833,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,256
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4518,6 +4863,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -4535,6 +4887,7 @@ add x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 jal x30,__L2
+__end___L2:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4562,6 +4915,13 @@ addi x2,x2,4
 addi x5,x0,4
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4569,6 +4929,31 @@ lw x5,0(x5)
 addi x5,x5,64
 lw x5,0(x5)
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_6_loop:
+            beq x29,x0,__mul_6_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_6_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_6_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_6_loop
+            
+            __mul_6_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
@@ -4631,7 +5016,15 @@ sw x5,0(x6)
 addi x5,x0,1
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 jal x30,__L1
+__end___L1:
 jal x30,__end_if_2
 addi x5,x0,8
 sw x5,0(x2)
@@ -4672,6 +5065,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,64
 sw x5,0(x6)
+__L3:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4683,6 +5077,12 @@ addi x2,x2,4
 addi x5,x0,8
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_#L3_no
+jal x30,__end_#L3
+__end_#L3_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4709,18 +5109,18 @@ jal x1,__type_check
             add x28,x20,x0  # Copy multiplicand
             add x29,x24,x0  # Copy multiplier
             
-            __mul_0_loop:
-            beq x29,x0,__mul_0_done
+            __mul_7_loop:
+            beq x29,x0,__mul_7_done
             andi x30,x29,1    # Check LSB
-            beq x30,x0,__mul_0_shift
+            beq x30,x0,__mul_7_shift
             add x26,x26,x28   # Add multiplicand to result
             
-            __mul_0_shift:
+            __mul_7_shift:
             slli x28,x28,1    # Shift multiplicand left
             srli x29,x29,1    # Shift multiplier right
-            bge x0,x0,__mul_0_loop
+            bge x0,x0,__mul_7_loop
             
-            __mul_0_done:
+            __mul_7_done:
             add x20,x26,x0   # Move result to destination
         add x20,x20,x21
 sw x20,0(x2)
@@ -4735,6 +5135,31 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,128
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_8_loop:
+            beq x29,x0,__mul_8_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_8_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_8_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_8_loop
+            
+            __mul_8_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 lui x5,2
 addi x5,x5,4
@@ -4769,18 +5194,18 @@ jal x1,__type_check
             add x28,x20,x0  # Copy multiplicand
             add x29,x24,x0  # Copy multiplier
             
-            __mul_1_loop:
-            beq x29,x0,__mul_1_done
+            __mul_9_loop:
+            beq x29,x0,__mul_9_done
             andi x30,x29,1    # Check LSB
-            beq x30,x0,__mul_1_shift
+            beq x30,x0,__mul_9_shift
             add x26,x26,x28   # Add multiplicand to result
             
-            __mul_1_shift:
+            __mul_9_shift:
             slli x28,x28,1    # Shift multiplicand left
             srli x29,x29,1    # Shift multiplier right
-            bge x0,x0,__mul_1_loop
+            bge x0,x0,__mul_9_loop
             
-            __mul_1_done:
+            __mul_9_done:
             add x20,x26,x0   # Move result to destination
         add x20,x20,x21
 sw x20,0(x2)
@@ -4820,7 +5245,15 @@ sw x5,0(x6)
 addi x5,x0,1
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 jal x30,__L3
+__end___L3:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4845,7 +5278,39 @@ addi x5,x5,20
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_10_loop:
+            beq x29,x0,__mul_10_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_10_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_10_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_10_loop
+            
+            __mul_10_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
 addi x5,x0,4
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4864,6 +5329,13 @@ lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,4
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
@@ -4892,6 +5364,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,64
 sw x5,0(x6)
+__L4:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4903,6 +5376,12 @@ addi x2,x2,4
 addi x5,x0,8
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_#L4_no
+jal x30,__end_#L4
+__end_#L4_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4922,6 +5401,13 @@ addi x2,x2,4
 addi x5,x0,4
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -4929,6 +5415,31 @@ lw x5,0(x5)
 addi x5,x5,64
 lw x5,0(x5)
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_11_loop:
+            beq x29,x0,__mul_11_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_11_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_11_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_11_loop
+            
+            __mul_11_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
@@ -4996,18 +5507,18 @@ jal x1,__type_check
             add x28,x20,x0  # Copy multiplicand
             add x29,x24,x0  # Copy multiplier
             
-            __mul_2_loop:
-            beq x29,x0,__mul_2_done
+            __mul_12_loop:
+            beq x29,x0,__mul_12_done
             andi x30,x29,1    # Check LSB
-            beq x30,x0,__mul_2_shift
+            beq x30,x0,__mul_12_shift
             add x26,x26,x28   # Add multiplicand to result
             
-            __mul_2_shift:
+            __mul_12_shift:
             slli x28,x28,1    # Shift multiplicand left
             srli x29,x29,1    # Shift multiplier right
-            bge x0,x0,__mul_2_loop
+            bge x0,x0,__mul_12_loop
             
-            __mul_2_done:
+            __mul_12_done:
             add x20,x26,x0   # Move result to destination
         add x20,x20,x21
 sw x20,0(x2)
@@ -5033,6 +5544,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+rem x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -5050,6 +5568,7 @@ add x6,x6,x8
 lw x6,0(x6)
 addi x6,x6,116
 sw x5,0(x6)
+__L5:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5066,6 +5585,12 @@ addi x5,x5,112
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_#L5_no
+jal x30,__end_#L5
+__end_#L5_no:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5076,6 +5601,31 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x5,x0,256
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_13_loop:
+            beq x29,x0,__mul_13_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_13_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_13_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_13_loop
+            
+            __mul_13_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
@@ -5098,6 +5648,13 @@ sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
 lui x6,2
 addi x6,x6,4
 add x6,x6,x8
@@ -5115,6 +5672,7 @@ add x5,x6,x5
 sw x5,0(x2)
 addi x2,x2,4
 jal x30,__L5
+__end___L5:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5157,6 +5715,13 @@ addi x2,x2,4
 addi x5,x0,4
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+div x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5164,6 +5729,31 @@ lw x5,0(x5)
 addi x5,x5,64
 lw x5,0(x5)
 sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_14_loop:
+            beq x29,x0,__mul_14_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_14_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_14_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_14_loop
+            
+            __mul_14_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
 addi x2,x2,4
 addi x2,x2,-4
 lw x5,0(x2)
@@ -5226,7 +5816,15 @@ sw x5,0(x6)
 addi x5,x0,1
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 jal x30,__L4
+__end___L4:
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5256,6 +5854,13 @@ sw x5,0(x6)
 addi x5,x0,1
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+sub x5,x6,x5
+sw x5,0(x2)
+addi x2,x2,4
 lui x5,2
 addi x5,x5,4
 add x5,x5,x8
@@ -5272,6 +5877,12 @@ addi x5,x5,4
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_11_no
+jal x30,__end_if_11
+__end_if_11_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4
@@ -5329,6 +5940,37 @@ addi x5,x5,8
 lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x2,x2,-4
+lw x6,0(x2)
+            # Multiplication of x6 and x5
+            addi x26,x0,0     # Initialize result
+            addi x27,x0,0     # Initialize counter
+            add x28,x6,x0  # Copy multiplicand
+            add x29,x5,x0  # Copy multiplier
+            
+            __mul_15_loop:
+            beq x29,x0,__mul_15_done
+            andi x30,x29,1    # Check LSB
+            beq x30,x0,__mul_15_shift
+            add x26,x26,x28   # Add multiplicand to result
+            
+            __mul_15_shift:
+            slli x28,x28,1    # Shift multiplicand left
+            srli x29,x29,1    # Shift multiplier right
+            bge x0,x0,__mul_15_loop
+            
+            __mul_15_done:
+            add x5,x26,x0   # Move result to destination
+        sw x5,0(x2)
+addi x2,x2,4
+addi x2,x2,-4
+lw x5,0(x2)
+addi x6,x0,1
+beq x5,x6,__end_if_12_no
+jal x30,__end_if_12
+__end_if_12_no:
 addi x5,x0,0
 sw x5,0(x2)
 addi x2,x2,4

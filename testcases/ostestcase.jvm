@@ -1069,7 +1069,7 @@ LABEL #L0
 push local 15 INT
 push local 13 INT
 gte
-JZ, goto end_#L0
+JZ, goto #end_L0
 push constant 0 INT
 push local 15 INT
 call OS_mwrite 2 INT
@@ -1080,7 +1080,7 @@ pop local 15 INT
 push constant 1 INT
 add
 goto #L0
-LABEL end_#L0
+LABEL #end_L0
 push constant 0 INT
 pop local 4 INT
 push constant 0 INT

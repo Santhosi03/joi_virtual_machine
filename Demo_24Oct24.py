@@ -845,6 +845,7 @@ class VM_Demo:
             condition = Operators.Lt
             branch = Operators.Lt.value
         elif (condition == Instructions.Ge.value):
+            print("hi")
             condition = Operators.Ge
             branch = Operators.Ge.value
 

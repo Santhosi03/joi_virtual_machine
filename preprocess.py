@@ -19,11 +19,22 @@ class Preprocess:
         # Neq
         mod_vm_code = ''
         for line in generator:
+            line = re.sub(r'LABEL', 'label', line)
+            line = re.sub(r'gte', 'ge\n', line)
+            line = re.sub(r'lte', 'le\n', line)
             split_line = line.split(' ')
 
             if len(split_line) == 0:
                 continue
+            
+            if line.startswith('JZ,'):
+                parts = line.split(',')
+                original_label = parts[1].strip()
 
+                # Generate a unique dummy label
+                dummy_label = f"{original_label}_no"
+
+                mod_vm_code +=f"if-goto {dummy_label}\n" + f"goto {original_label}\n" + f"label {dummy_label}\n"
             if split_line[0] == 'lib':
                 script_dir = os.path.dirname(__file__)
                 lib_path = 'libraries/' + split_line[-1]
@@ -92,8 +103,8 @@ class Preprocess:
             elif '#' in line:
                 mod_vm_code += re.sub(r'#', '__', line) + '\n'
 
-            elif split_line[0] =="add" and len(split_line) < 2:
-                mod_vm_code+= "add INT\n"
+            elif split_line[0] in ["add", "sub", "mul", "div", "mod"] and len(split_line) < 2:
+                mod_vm_code+= f"{split_line[0]} INT\n"
             else:
                 mod_vm_code += line + '\n'
         # print("------------modified---",mod_vm_code)

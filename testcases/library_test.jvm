@@ -7,7 +7,7 @@ push constant 20 INT
 pop local 1 INT
 push local 0 INT
 push local 1 INT
-call max 2
+call max 2 INT
 pop local 2 INT
 push local 2 INT
 print INT

@@ -9,5 +9,7 @@ push constant 10 INT
 push constant 20 INT
 call add 2 INT
 pop local 0 INT
+push local 0 INT
+print INT
 push constant 0 INT
 return

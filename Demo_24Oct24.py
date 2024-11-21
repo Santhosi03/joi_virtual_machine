@@ -72,8 +72,7 @@ class VM_Demo:
         self.current_scope = []
         self.current_context = None  # Can be 'class', 'private', 'public', 'method'
 
-        self.lv_ofst_stack = []
-        self.lv_ofst_dict = {}
+        self.lv_ofst = {}
 
     def init_mem(self):
         # 8224 to 8735 (512, local)
@@ -612,18 +611,20 @@ class VM_Demo:
             pointer = None
             if (segment == Segment.local.value):
                 pointer = self.lcl
-                if index in self.lv_ofst_dict:
-                    offset = self.lv_ofst_dict[index]
-                if index + 1 not in self.lv_ofst_dict:
+                dict = self.lv_ofst[self.cur_function]
+                if index in dict:
+                    offset = dict[index]
+                if index + 1 not in dict:
                     next_offset = offset + self.data_size[datatype]
-                    self.lv_ofst_dict[index + 1] = next_offset
+                    dict[index + 1] = next_offset
+                print(f"{pointer} + {offset} at index: {index}")
             elif (segment == Segment.temp.value):
                 pointer = self.tmp
                 offset = index * 4
             elif (segment == Segment.argument.value):
                 pointer = self.arg
                 offset = index*4
-            print(f"{pointer} + {offset} at indexL: {index}")
+            
             if (datatype == Datatypes.INT.value):
                 # self.text_segment += f"lw x5, {-(pointer)}(x8)\n"
 
@@ -714,11 +715,13 @@ class VM_Demo:
         pointer = None
         if (segment == Segment.local.value):
             pointer = self.lcl
-            if index in self.lv_ofst_dict:
-                    offset = self.lv_ofst_dict[index]
-            if index + 1 not in self.lv_ofst_dict:
+            dict = self.lv_ofst[self.cur_function]
+            if index in dict:
+                offset = dict[index]
+            if index + 1 not in dict:
                 next_offset = offset + self.data_size[datatype]
-                self.lv_ofst_dict[index + 1] = next_offset
+                dict[index + 1] = next_offset
+            print(f"{pointer} + {offset} at index: {index}")
         elif (segment == Segment.temp.value):
             pointer = self.tmp
             offset = index*4
@@ -1387,9 +1390,7 @@ class VM_Demo:
 
         self.text_segment += f"jal x1, {func_name}\n"
         
-        
-        self.lv_ofst_stack.append(self.lv_ofst_dict.copy())
-        self.lv_ofst_dict = {}
+    
 
         # self.text_segment += '\n'
 
@@ -1410,6 +1411,7 @@ class VM_Demo:
         self.cur_function = function
         self.functions[function] = False  # Mark as not yet confirmed valid
         self.has_return = False  # Reset return tracker
+        self.lv_ofst[function]  = {}
 
         if (function == 'joi'):
             self.text_segment += f"{function}:\n"
@@ -1433,11 +1435,10 @@ class VM_Demo:
 
         # setting new working stack
         self.text_segment += f"addi x2, x2, {(self.num_temp+self.num_local)*4}\n"
-
         # self.text_segment += '\n'
 
     def return_call(self, line):
-
+        
         if (self.cur_function == 'joi'):
             self.text_segment += f"jal x30, __END__\n"
             return
@@ -1487,10 +1488,6 @@ class VM_Demo:
         self.text_segment += f"jalr x0, x1, 0\n"
 
 
-        if self.lv_ofst_stack:
-            self.lv_ofst_dict = self.lv_ofst_stack.pop()
-        else:
-            self.lv_ofst_dict = {}
         # self.text_segment += '\n'
 
     def scan(self, line):

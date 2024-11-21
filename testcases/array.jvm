@@ -26,7 +26,7 @@ pop temp 0 INT
 push local 0 PTR
 push local 2 INT
 getindex
-push constant 5 INT
+push temp 0 INT
 store INT
 push local 1 INT
 push local 0 PTR

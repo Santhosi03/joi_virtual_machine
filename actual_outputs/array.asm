@@ -241,7 +241,12 @@ jal x1,__type_check
         add x20,x20,x21
 sw x20,0(x2)
 addi x2,x2,4
-addi x5,x0,5
+lui x5,2
+addi x5,x5,12
+add x5,x5,x8
+lw x5,0(x5)
+addi x5,x5,4
+lw x5,0(x5)
 sw x5,0(x2)
 addi x2,x2,4
 # Store value at address

@@ -1490,7 +1490,7 @@ class VM_Demo:
         if self.lv_ofst_stack:
             self.lv_ofst_dict = self.lv_ofst_stack.pop()
         else:
-            self.lv_ofst_stack = {}
+            self.lv_ofst_dict = {}
         # self.text_segment += '\n'
 
     def scan(self, line):

@@ -1,0 +1,26 @@
+function joi 0 INT
+push constant 7 INT
+pop local 3 INT
+push constant 0 INT
+pop local 4 INT
+push constant 0 INT
+pop local 5 INT
+push local 3 INT
+push constant 2 INT
+mod
+push constant 0 INT
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 1 INT
+pop local 4 INT
+goto IF_END1
+label IF_FALSE1
+push constant 0 INT
+pop local 5 INT
+goto IF_END1
+label IF_END1
+push constant 0 INT
+return
+halt

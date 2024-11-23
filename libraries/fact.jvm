@@ -1,0 +1,31 @@
+function factorial 1 INT
+push argument n int
+push local 6 INT
+push constant 0 INT
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 1 INT
+goto aaa 
+goto IF_END2
+label IF_FALSE2
+label IF_END2
+push local 6 INT
+push local 6 INT
+push constant 1 INT
+sub
+call factorial 1
+mul
+label aaa
+return
+function joi 0 INT
+push constant 7 INT
+pop local 8 INT
+pop local 9 int
+push local 8 INT
+call factorial 1
+pop local 9 INT
+push constant 0 INT
+return
+halt

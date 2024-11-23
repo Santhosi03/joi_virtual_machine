@@ -1,4 +1,9 @@
 # joi_virtual_machine
+
+Usage Instructions:
+python main.py <path of source file(s) relative to main.py> <output_filename>
+
+
 Team Members: <br>
 
 CS21B043 S DHANANJAYAN
